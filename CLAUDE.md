@@ -153,6 +153,22 @@ with assigned values: `contact_phone` ($30), `contact_email` ($15),
 Ads. `initGclidCapture()` persists the Google Ads click ID for 90 days, matching
 the conversion window, so the inquiry form can attach it to the lead email.
 
+**Gallery order: newest shoot shows first.** `.gallery-grid` is CSS columns,
+so code order runs *down* each column, not across the top row. Phones and
+tablets show two columns, desktop (1024px+) shows three. When adding a shoot:
+
+- Small galleries (index "Featured Weddings", weddings "A Day, Beautifully
+  Told"): put the new shoot in slot 1 and at the top of every other column in
+  both layouts (column 2 of two, columns 2 and 3 of three). Column breaks
+  depend on image heights, so measure in headless Chrome at 500px and 1400px
+  wide instead of counting. Keeping the left column the tallest makes the
+  breaks land predictably.
+- `portfolio.html`: the newest shoot goes first as a group inside the wedding
+  items. Only the left column leads with it. Too many items to place column
+  tops by hand.
+- New files go in `img/weddings-portfolio/` as `couple-names-NN.jpg`, 2000px
+  long edge, JPG quality 82, metadata stripped.
+
 **Media.** Roughly 380 images in `img/` and four hero videos in `video/`. Videos
 are large (up to 24MB) and committed directly to git. When swapping a hero
 video, delete the old file in the same commit as the source change so the repo
