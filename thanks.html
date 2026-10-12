@@ -112,7 +112,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=7"></script>
+  <script src="js/main.js?v=8"></script>
   <script>
     (function () {
       // Only count this as a lead if the visitor actually submitted the inquiry form.
@@ -136,15 +136,16 @@
       if (sessionStorage.getItem('inq_fired')) return;
       sessionStorage.setItem('inq_fired', '1');
 
-      gtag('event', 'form_submit', {
-        form_destination: 'formsubmit',
-        inquiry: 'contact',
-        value: 100.0,
-        currency: 'USD',
-        transaction_id: 'inq-' + Date.now()
-      });
+      // Lead value = average booking for the service x the measured 15% close rate.
+      // generate_lead is the one to import into Google Ads as the primary conversion.
+      var VALUES = { 'Wedding': 270, 'Estate or Resort Wedding': 450, 'Elopement': 120, 'Surprise Proposal': 60, 'Engagement Session': 60, 'Portraits, Family, or Maternity': 55, 'Something Else': 80 };
+      var inqType = '';
+      try { inqType = sessionStorage.getItem('inq_type') || ''; sessionStorage.removeItem('inq_type'); } catch (e) {}
+      var leadValue = VALUES[inqType] || 100;
 
-      gtag('event', 'generate_lead', { value: 100.0, currency: 'USD' });
+      gtag('event', 'form_submit', { form_destination: 'formsubmit', inquiry: 'contact', inquiry_type: inqType });
+
+      gtag('event', 'generate_lead', { value: leadValue, currency: 'USD', inquiry_type: inqType });
     })();
   </script>
 </body>

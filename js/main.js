@@ -234,6 +234,26 @@
     } catch (e) {}
   }
 
+  // Traffic source memory for the inquiry form. First touch persists 90 days,
+  // session touch resets per tab, so a lead can be attributed even when the
+  // inquiry happens on a later visit.
+  function initTouchCapture() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var touch = {
+        ref: document.referrer || '',
+        landing: window.location.pathname + window.location.search,
+        utm_source: params.get('utm_source') || '',
+        utm_medium: params.get('utm_medium') || '',
+        utm_campaign: params.get('utm_campaign') || '',
+        ts: Date.now()
+      };
+      if (!sessionStorage.getItem('ks_session_touch')) sessionStorage.setItem('ks_session_touch', JSON.stringify(touch));
+      var first = JSON.parse(localStorage.getItem('ks_first_touch') || 'null');
+      if (!first || Date.now() - first.ts > 90 * 24 * 60 * 60 * 1000) localStorage.setItem('ks_first_touch', JSON.stringify(touch));
+    } catch (e) {}
+  }
+
   function initConversionTracking() {
     if (typeof gtag !== 'function') return;
 
@@ -303,6 +323,7 @@
     initSmoothScroll();
     initVideoObserver();
     initGclidCapture();
+    initTouchCapture();
     initConversionTracking();
     initHashLanding();
   }

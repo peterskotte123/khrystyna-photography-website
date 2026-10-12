@@ -146,6 +146,19 @@ Pages without one (portfolio, about, services) stay solid, because the white
 logo would vanish against a light background. If you add a page with a light
 top section, do not give it a `.hero` element.
 
+**Inquiry copy to Supabase.** Since 2026-10-09 the contact form posts to
+FormSubmit as before (that is the email) and `contact.html` also sends a JSON
+copy of the inquiry, with the stored click ID and first-touch source, to
+`https://wurikcpajrkvmnohungl.supabase.co/functions/v1/site-inquiry` with
+`fetch(..., {keepalive: true})` and a `text/plain` body (no preflight). It
+lands in `public.site_inquiries`. The source values come from
+`initTouchCapture()` in `js/main.js` (`ks_first_touch` in localStorage,
+`ks_session_touch` in sessionStorage). If the endpoint is down the form still
+submits; only the database copy is lost. Function source and README live in
+`ads-data/thumbtack-webhook/` (gitignored). `thanks.html` sets the
+`generate_lead` value per inquiry type; import that event into Google Ads as
+the only primary conversion.
+
 **Conversion tracking.** `initConversionTracking()` fires GA4 events on click,
 with assigned values: `contact_phone` ($30), `contact_email` ($15),
 `book_appointment` ($40, Calendly links). These are event based, so no `AW-`

@@ -335,7 +335,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=7"></script>
+  <script src="js/main.js?v=8"></script>
   <script>
     (function () {
       var form = document.querySelector('form[action*="formsubmit.co"]');
@@ -397,8 +397,32 @@
 
         try {
           sessionStorage.setItem('inq_ud', JSON.stringify(ud));
+          sessionStorage.setItem('inq_type', typeTxt || '');
           sessionStorage.setItem('inq_submitted', '1');
           sessionStorage.removeItem('inq_fired');
+        } catch (e) {}
+
+        // Send a copy of the inquiry to our own database with its traffic
+        // source attached. FormSubmit still gets the real POST for the email.
+        // text/plain keeps this a simple request, and keepalive lets it finish
+        // while the page navigates away. If it fails, the form still submits.
+        try {
+          var fields = {};
+          new FormData(form).forEach(function (v, k) { if (k.indexOf('_') !== 0 || k === '_honey') fields[k] = typeof v === 'string' ? v : ''; });
+          var idStored = JSON.parse(localStorage.getItem('ks_gclid') || 'null');
+          var payload = {
+            fields: fields,
+            click_id: idStored && idStored.value ? idStored.value : '',
+            click_id_kind: idStored && idStored.kind ? idStored.kind : '',
+            first_touch: JSON.parse(localStorage.getItem('ks_first_touch') || 'null'),
+            session_touch: JSON.parse(sessionStorage.getItem('ks_session_touch') || 'null'),
+            page: window.location.pathname + window.location.search
+          };
+          fetch('https://wurikcpajrkvmnohungl.supabase.co/functions/v1/site-inquiry', {
+            method: 'POST', mode: 'cors', keepalive: true,
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+          }).catch(function () {});
         } catch (e) {}
 
       });
