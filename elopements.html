@@ -235,17 +235,17 @@
         <div class="service-card" style="text-align: left; display: flex; flex-direction: column;">
           <h3 class="service-title">One Hour &middot; $650</h3>
           <p class="service-text">One beautiful location, your ceremony and portraits. Perfect for just the two of you at Sunset Cliffs or the beach.</p>
-          <a href="contact.html?type=Elopement&estimate=Elopement%20photography%2C%20one%20hour%20%28%24650%29#inquire" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Check Your Date</a>
+          <a href="#estimator" data-est-hours="1" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Estimate This Package</a>
         </div>
         <div class="service-card" style="text-align: left; border: 2px solid var(--color-accent); display: flex; flex-direction: column;">
           <h3 class="service-title">Two Hours &middot; $900</h3>
           <p class="service-text">Time for the ceremony, portraits at golden hour, and a champagne toast. The most popular choice for coastal elopements.</p>
-          <a href="contact.html?type=Elopement&estimate=Elopement%20photography%2C%20two%20hours%20%28%24900%29#inquire" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Check Your Date</a>
+          <a href="#estimator" data-est-hours="2" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Estimate This Package</a>
         </div>
         <div class="service-card" style="text-align: left; display: flex; flex-direction: column;">
           <h3 class="service-title">Three Hours &middot; $1,200</h3>
           <p class="service-text">Multiple locations and the full story of your day, from getting ready to sunset.</p>
-          <a href="contact.html?type=Elopement&estimate=Elopement%20photography%2C%20three%20hours%20%28%241%2C200%29#inquire" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Check Your Date</a>
+          <a href="#estimator" data-est-hours="3" class="btn btn-outline-dark" style="margin-top: auto; align-self: flex-start; padding-top: 12px; padding-bottom: 12px;">Estimate This Package</a>
         </div>
       </div>
       <p style="text-align: center; max-width: 620px; margin: var(--space-6) auto 0; font-family: var(--font-heading); font-size: var(--text-xl); color: var(--color-text); line-height: 1.5;">Your two hour evening, as it usually goes: arrive and settle in, a short ceremony, golden hour portraits along the cliffs, and a champagne toast at sunset.</p>
@@ -591,6 +591,31 @@
 
     syncVisibility();
   })();
+  </script>
+
+  <script>
+    // Package cards above the estimator preselect their coverage in it.
+    (function () {
+      document.querySelectorAll('[data-est-hours]').forEach(function (a) {
+        a.addEventListener('click', function () {
+          var h = a.getAttribute('data-est-hours');
+          var hours = document.querySelector('#estimator .est-opts[data-group="hours"] .est-opt[data-value="' + h + '"]');
+          var media = document.querySelector('#estimator .est-opts[data-group="media"]');
+          if (hours) hours.click();
+          if (media && !media.querySelector('.est-active')) {
+            var photo = media.querySelector('.est-opt[data-value="photo"]');
+            if (photo) photo.click();
+          }
+          // Default the venue to San Diego County so a price shows at once; the
+          // visitor can switch it to Temecula or outside the area.
+          var venue = document.querySelector('#estimator .est-opts[data-group="venue"]');
+          if (venue && !venue.querySelector('.est-active')) {
+            var sd = venue.querySelector('.est-opt[data-value="sd"]');
+            if (sd) sd.click();
+          }
+        });
+      });
+    })();
   </script>
 
   <!-- Testimonial -->
