@@ -197,5 +197,64 @@ There is no test suite. Before claiming a change works:
 2. Serve the site and load the changed page, do not just read the diff.
 3. If nav or links changed, verify under `vercel dev` so `cleanUrls` applies.
 4. If CSS changed, confirm the `?v=` bump landed on every page.
-5. If an image or video changed, confirm the file actually exists at the new
+5. `python3 sync_partials.py --check` prints "all pages match".
+6. If an image or video changed, confirm the file actually exists at the new
    path and the old one is gone.
+
+---
+
+## Staged deletions ride along with the next commit
+
+### Problem
+
+On 2026-10-13 the live pricing page lost its hero image for about ten
+minutes. The page still referenced `img/weddings/wedding-20.jpg`, which no
+longer existed in the deploy.
+
+### Root Cause
+
+The old hero was removed with `git rm` while swapping in a new one, which
+stages the deletion immediately. The page edit that used the new image was
+left unstaged. A later commit for an unrelated page used `git add <files>`
+and `git commit`, and the commit took every staged change, including the
+deletion, without the page edit that depended on it.
+
+### Solution
+
+Pushed the pricing page edit and the new image in a follow-up commit.
+
+### Key Learning
+
+Never `git rm` an asset until the commit that stops referencing it is being
+built. Before any partial commit, run `git status` and confirm the index
+holds only the files meant for that commit. A swapped hero and its old
+file's removal go in the same commit, never split.
+
+---
+
+## The header is a partial, never edit it per page
+
+`partials/header.html` is the only copy of the desktop nav and the mobile
+menu. Every page carries a stamped copy between `<!-- shared-header:start -->`
+and `<!-- shared-header:end -->`. `sync_partials.py` writes it and marks the
+active item from its `ACTIVE` table, and gives pages without a `.hero` the
+solid `scrolled` header automatically.
+
+- To change the nav: edit the partial, run `python3 sync_partials.py`, commit
+  every page it touched.
+- New page: add it to `ACTIVE` in `sync_partials.py` if it should highlight a
+  nav item, then run the script.
+- Before committing: `python3 sync_partials.py --check` must print
+  "all pages match". It exits 1 and names any page that drifted or lacks the
+  markers.
+
+### Problem
+
+On 2026-10-13 Petey found a page whose nav lacked the new Courthouse link,
+after a week of hand-editing 14 copies of the same header.
+
+### Key Learning
+
+Shared chrome gets one source file and a script that stamps it, even on a
+site with no build step. Hand-copied headers drift the first time someone
+edits one page in a hurry.

@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://khrystynaskotte.com/sitemap.xml
+Sitemap: https://www.khrystynaskotte.com/sitemap.xml
