@@ -54,6 +54,15 @@
     .ch-addons { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border, #e6e2dc); color: #555; font-size: var(--text-sm); }
     .ch-who { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border, #e6e2dc); text-align: left; }
     .ch-who img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; flex: none; }
+    /* Desktop hero: slide the photo left and the copy right so the headline clears the bride's face */
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .hero .hero-video { transform: translate(-66%, -50%) scale(1.3); }
+      .hero .hero-content { transform: translateX(9%); }
+    }
+    @media (min-width: 1280px) {
+      .hero .hero-video { transform: translate(-62%, -50%) scale(1.25); }
+      .hero .hero-content { transform: translateX(18%); }
+    }
     .ch-who p { margin: 0; color: #555; font-size: var(--text-sm); }
     .ch-who strong { color: var(--color-text); }
     .ch-text-cta { display: inline-block; margin-top: var(--space-4); color: var(--color-accent); font-weight: var(--font-semibold); text-decoration: underline; padding: 10px 8px; }
@@ -198,7 +207,7 @@
           <li>Planning help with timing and the spot</li>
           <li>Any County Clerk office, or your own officiant</li>
         </ul>
-        <p class="ch-addons"><strong>Want more?</strong> A second hour is $250 ($900 total) for a second spot, like Little Italy, Balboa Park, or the beach. Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. The price you see is the price you pay.</p>
+        <p class="ch-addons"><strong>Want more?</strong> A second hour is $250 ($900 total) for a second spot, like Little Italy, Balboa Park, or the beach. Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. Bringing more than 15 people? Add $100 and bring everyone. The price you see is the price you pay.</p>
         <p class="ch-addons" style="margin-top: var(--space-3); padding-top: 0; border-top: 0;"><strong>Holding your date:</strong> a $325 retainer (half) reserves it, and the rest is due after. Reschedule once with 30 days' notice. Unsafe weather reschedules at no charge and your retainer moves with the date.</p>
         <div class="ch-who">
           <img src="img/Khrystyna Photos/khrystyna photo.jpeg" alt="Khrystyna Skotte, San Diego photographer">
@@ -284,7 +293,7 @@
         </details>
         <details>
           <summary>Can our parents and friends come?</summary>
-          <p>Yes. Up to 15 guests are welcome at any coverage length, and I make sure there are photos with everyone who came.</p>
+          <p>Yes. Up to 15 guests are welcome at any coverage length, and I make sure there are photos with everyone who came. If your group is bigger than 15, it is $100 more and everyone is welcome.</p>
         </details>
         <details>
           <summary>Where do the portraits happen downtown?</summary>
