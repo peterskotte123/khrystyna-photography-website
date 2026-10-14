@@ -101,7 +101,7 @@
 
     function applyFilter(filter) {
       galleryItems.forEach(item => {
-        if (filter === 'all' || item.dataset.category === filter) {
+        if (filter === 'all' || (item.dataset.category || '').split(/\s+/).includes(filter)) {
           item.style.display = '';
           setTimeout(() => item.style.opacity = '1', 10);
         } else {
