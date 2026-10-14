@@ -53,8 +53,7 @@
     .ch-opt.ch-opt-featured { border-color: var(--color-accent); background: rgba(122, 132, 105, .06); }
     .ch-opt h4 { font-family: var(--font-heading); font-size: var(--text-lg); margin: 0; font-weight: 500; }
     .ch-opt .ch-price { font-size: 1.75rem; line-height: 1.1; }
-    .ch-opt p { margin: 0 0 var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); flex: 1; }
-    .ch-opt .btn { padding: 10px 18px; font-size: .8rem; margin-top: auto; }
+    .ch-opt p { margin: 0; color: var(--color-text-muted); font-size: var(--text-sm); }
     .ch-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-2) var(--space-5); }
     .ch-list li { padding-left: 1.4em; position: relative; color: var(--color-text); }
     .ch-list li::before { content: "\2713"; position: absolute; left: 0; color: var(--color-accent); font-weight: 600; }
@@ -192,19 +191,16 @@
             <h4>One Hour</h4>
             <p class="ch-price">$650</p>
             <p>Your ceremony, then portraits right outside. Most couples choose this.</p>
-            <a href="#inquire" class="btn btn-primary ch-pick" data-coverage="One hour of photos, $650">Choose One Hour</a>
           </div>
           <div class="ch-opt">
             <h4>One and a Half Hours</h4>
             <p class="ch-price">$800</p>
             <p>Room to breathe: the ceremony, portraits, and a short walk to the waterfront.</p>
-            <a href="#inquire" class="btn btn-outline-dark ch-pick" data-coverage="One and a half hours of photos, $800">Choose 1.5 Hours</a>
           </div>
           <div class="ch-opt">
             <h4>Two Hours</h4>
             <p class="ch-price">$900</p>
             <p>Two spots: the courthouse, then Little Italy, Balboa Park, or the beach.</p>
-            <a href="#inquire" class="btn btn-outline-dark ch-pick" data-coverage="Two hours of photos, $900">Choose Two Hours</a>
           </div>
         </div>
         <p style="margin: 0 0 var(--space-3); font-weight: 600;">Every option includes</p>
@@ -524,15 +520,6 @@
     // a JSON copy goes to our database with the traffic source, and thanks.html
     // reads inq_type from sessionStorage to value the generate_lead event.
     (function () {
-      // Option tiles preselect the matching coverage in the form, then the anchor scrolls there.
-      document.querySelectorAll('.ch-pick').forEach(function (a) {
-        a.addEventListener('click', function () {
-          var sel = document.getElementById('inq-coverage');
-          if (!sel) return;
-          var want = a.getAttribute('data-coverage');
-          Array.prototype.forEach.call(sel.options, function (o) { if (o.text === want) sel.value = o.value || o.text; });
-        });
-      });
       var form = document.getElementById('courthouseForm');
       if (!form) return;
 
