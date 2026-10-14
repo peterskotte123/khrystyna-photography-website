@@ -48,6 +48,13 @@
     .ch-include-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-4); }
     .ch-include-head h3 { font-family: var(--font-heading); font-size: var(--text-2xl); margin: 0; }
     .ch-price { font-family: var(--font-heading); font-size: 2rem; color: var(--color-accent); font-weight: 600; }
+    .ch-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-3); margin-bottom: var(--space-5); }
+    .ch-opt { border: 1px solid var(--color-border, #e6e2dc); border-radius: var(--radius-md); padding: var(--space-4); text-align: center; display: flex; flex-direction: column; gap: var(--space-1); }
+    .ch-opt.ch-opt-featured { border-color: var(--color-accent); background: rgba(122, 132, 105, .06); }
+    .ch-opt h4 { font-family: var(--font-heading); font-size: var(--text-lg); margin: 0; font-weight: 500; }
+    .ch-opt .ch-price { font-size: 1.75rem; line-height: 1.1; }
+    .ch-opt p { margin: 0 0 var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); flex: 1; }
+    .ch-opt .btn { padding: 10px 18px; font-size: .8rem; margin-top: auto; }
     .ch-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-2) var(--space-5); }
     .ch-list li { padding-left: 1.4em; position: relative; color: var(--color-text); }
     .ch-list li::before { content: "\2713"; position: absolute; left: 0; color: var(--color-accent); font-weight: 600; }
@@ -177,9 +184,30 @@
 
       <div class="ch-include fade-in" id="included">
         <div class="ch-include-head">
-          <h3>One Hour of Courthouse Coverage</h3>
-          <p class="ch-price">$650</p>
+          <h3>Courthouse Coverage</h3>
+          <p style="margin: 0; color: var(--color-text-muted); font-size: var(--text-sm);">Pick the length that fits your day</p>
         </div>
+        <div class="ch-options">
+          <div class="ch-opt ch-opt-featured">
+            <h4>One Hour</h4>
+            <p class="ch-price">$650</p>
+            <p>Your ceremony, then portraits right outside. Most couples choose this.</p>
+            <a href="#inquire" class="btn btn-primary ch-pick" data-coverage="One hour of photos, $650">Choose One Hour</a>
+          </div>
+          <div class="ch-opt">
+            <h4>One and a Half Hours</h4>
+            <p class="ch-price">$800</p>
+            <p>Room to breathe: the ceremony, portraits, and a short walk to the waterfront.</p>
+            <a href="#inquire" class="btn btn-outline-dark ch-pick" data-coverage="One and a half hours of photos, $800">Choose 1.5 Hours</a>
+          </div>
+          <div class="ch-opt">
+            <h4>Two Hours</h4>
+            <p class="ch-price">$900</p>
+            <p>Two spots: the courthouse, then Little Italy, Balboa Park, or the beach.</p>
+            <a href="#inquire" class="btn btn-outline-dark ch-pick" data-coverage="Two hours of photos, $900">Choose Two Hours</a>
+          </div>
+        </div>
+        <p style="margin: 0 0 var(--space-3); font-weight: 600;">Every option includes</p>
         <ul class="ch-list">
           <li>Your ceremony and portraits after</li>
           <li>100+ edited photos</li>
@@ -189,7 +217,7 @@
           <li>Planning help with timing and the spot</li>
           <li>Any County Clerk office, or your own officiant</li>
         </ul>
-        <p class="ch-addons"><strong>Want more?</strong> A second hour is $250 ($900 total) for a second spot, like Little Italy, Balboa Park, or the beach. Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. Bringing more than 15 people? Add $100 and bring everyone. The price you see is the price you pay.</p>
+        <p class="ch-addons"><strong>Want more?</strong> Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. Bringing more than 15 people? Add $100 and bring everyone. The price you see is the price you pay.</p>
         <p class="ch-addons" style="margin-top: var(--space-3); padding-top: 0; border-top: 0;"><strong>Holding your date:</strong> a $325 retainer (half) reserves it, and the rest is due after. Reschedule once with 30 days' notice. Unsafe weather reschedules at no charge and your retainer moves with the date.</p>
         <div class="ch-who">
           <img src="img/Khrystyna Photos/khrystyna photo.jpeg" alt="Khrystyna Skotte, San Diego photographer">
@@ -412,6 +440,7 @@
             <select class="form-input" id="inq-coverage" name="coverage">
               <option value="" disabled selected>Choose one</option>
               <option>One hour of photos, $650</option>
+              <option>One and a half hours of photos, $800</option>
               <option>Two hours of photos, $900</option>
               <option>Photo and film, $1,350</option>
               <option>Not sure yet</option>
@@ -495,6 +524,15 @@
     // a JSON copy goes to our database with the traffic source, and thanks.html
     // reads inq_type from sessionStorage to value the generate_lead event.
     (function () {
+      // Option tiles preselect the matching coverage in the form, then the anchor scrolls there.
+      document.querySelectorAll('.ch-pick').forEach(function (a) {
+        a.addEventListener('click', function () {
+          var sel = document.getElementById('inq-coverage');
+          if (!sel) return;
+          var want = a.getAttribute('data-coverage');
+          Array.prototype.forEach.call(sel.options, function (o) { if (o.text === want) sel.value = o.value || o.text; });
+        });
+      });
       var form = document.getElementById('courthouseForm');
       if (!form) return;
 
