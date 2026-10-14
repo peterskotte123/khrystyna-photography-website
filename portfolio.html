@@ -33,6 +33,15 @@
 
   <link rel="icon" type="image/png" href="img/horizontal logo.png">
   <noscript><style>.fade-in { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    /* Portfolio: shorter page header so the gallery starts sooner */
+    .page-header { padding: calc(var(--header-height) + var(--space-6)) 0 var(--space-6); }
+    /* Phones: no page header at all, the gallery filters start under the nav */
+    @media (max-width: 767px) {
+      .page-header { display: none; }
+      .page-header + .section { padding-top: calc(var(--header-height) + var(--space-6)); }
+    }
+  </style>
 </head>
 <body>
   <!-- shared-header:start -->
@@ -88,16 +97,6 @@
     </div>
   </section>
 
-  <!-- Social Proof Strip -->
-  <section style="background: var(--color-background-alt); padding: var(--space-5) 0;">
-    <div class="container">
-      <div class="fade-in" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-3) var(--space-6); text-align: center;">
-        <a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener"><img src="img/thumbtack-top-pro.webp" alt="Thumbtack Top Pro" style="height: 54px; width: auto;"></a>
-        <p style="margin: 0; font-size: var(--text-base);"><span style="color: #E0A82E; letter-spacing: 3px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>&nbsp;&nbsp;<a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener" style="color: var(--color-text); text-decoration: underline;"><strong>36 five-star reviews on Thumbtack</strong></a> &middot; <strong>Top Pro</strong></p>
-      </div>
-    </div>
-  </section>
-
 
   <!-- Gallery -->
   <section class="section">
@@ -105,6 +104,7 @@
       <!-- Filters -->
       <div class="gallery-filters">
         <button class="filter-btn active" data-filter="wedding">Weddings &amp; Elopements</button>
+        <button class="filter-btn" data-filter="courthouse">Courthouse</button>
         <button class="filter-btn" data-filter="portrait">Portraits</button>
         <button class="filter-btn" data-filter="maternity">Maternity</button>
         <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
@@ -160,6 +160,36 @@
           <video controls preload="none" playsinline poster="video/portfolio/film-proposal.jpg" title="Proposal film">
             <source src="video/portfolio/film-proposal.mp4" type="video/mp4">
           </video>
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-01.jpg" alt="Bride and groom kissing inside the brass-paneled courthouse elevator, bouquet in hand" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-04.jpg" alt="Couple holding hands beside the marble elevator doors on the second floor of the County Administration Center" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-09.jpg" alt="Bride and groom holding hands across the desk as they sign their marriage license" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-05.jpg" alt="Two wedding rings in green velvet boxes beside a pastel bouquet" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-06.jpg" alt="Couple kissing on a bench on the lawn outside the County Administration Center" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-10.jpg" alt="Couple seated close on a bench with the County Administration Center and palm trees behind them, black and white" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-03.jpg" alt="Bride resting her head on the groom's shoulder, baby's breath bouquet in hand" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-08.jpg" alt="Wedding shoes, veil, and a white rose bouquet laid out on the sand after the courthouse ceremony" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-07.jpg" alt="Newlyweds embracing on the lawn outside the County Administration Center, palms behind them" loading="lazy">
+        </div>
+        <div class="gallery-item" data-category="courthouse">
+          <img src="img/weddings-portfolio/downtown-courthouse-02.jpg" alt="Kiss in the open courthouse elevator, seen from the marble hallway" loading="lazy">
         </div>
         <div class="gallery-item" data-category="wedding">
           <img src="img/weddings-portfolio/lin-proposal-02.jpg" alt="Arms wrapped around his shoulders, the new engagement ring in focus" loading="lazy">

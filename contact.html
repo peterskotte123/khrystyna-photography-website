@@ -33,6 +33,14 @@
 
   <link rel="icon" type="image/png" href="img/horizontal logo.png">
   <noscript><style>.fade-in { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    /* Contact hero: the whole stack sits high, above the kiss at the end of the aisle */
+    .hero { align-items: flex-start; }
+    .hero .hero-content { margin-top: 10vh; }
+    .hero .hero-title { margin-bottom: var(--space-2); }
+    .hero .hero-subtitle { margin-bottom: var(--space-4); }
+    @media (min-width: 1024px) and (max-height: 820px) { .hero .hero-title { font-size: 2.75rem; } }
+  </style>
 </head>
 <body class="hero-page">
   <!-- shared-header:start -->
@@ -89,16 +97,7 @@
       <h1 class="hero-title">Let's Connect</h1>
       <p class="hero-subtitle">I'd love to hear about your story</p>
       <a href="https://calendly.com/khrystynaskotte/30min" target="_blank" rel="noopener" class="btn btn-primary">Book a Call</a>
-    </div>
-  </section>
-
-  <!-- Social Proof Strip -->
-  <section style="background: var(--color-background-alt); padding: var(--space-5) 0;">
-    <div class="container">
-      <div class="fade-in" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-3) var(--space-6); text-align: center;">
-        <a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener"><img src="img/thumbtack-top-pro.webp" alt="Thumbtack Top Pro" style="height: 54px; width: auto;"></a>
-        <p style="margin: 0; font-size: var(--text-base);"><span style="color: #E0A82E; letter-spacing: 3px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>&nbsp;&nbsp;<a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener" style="color: var(--color-text); text-decoration: underline;"><strong>36 five-star reviews on Thumbtack</strong></a> &middot; <strong>Top Pro</strong></p>
-      </div>
+      <p style="margin: var(--space-4) 0 0; font-size: var(--text-sm); letter-spacing: .04em; color: rgba(255,255,255,.9);">100+ five-star clients &middot; 36 five-star reviews</p>
     </div>
   </section>
 

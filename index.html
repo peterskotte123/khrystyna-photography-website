@@ -24,12 +24,12 @@
   <meta property="og:description" content="San Diego wedding and elopement photographer. Authentic, timeless coverage of full wedding days and intimate elopements.">
   <meta property="og:url" content="https://www.khrystynaskotte.com/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.khrystynaskotte.com/img/weddings/wedding-12.jpg">
+  <meta property="og:image" content="https://www.khrystynaskotte.com/img/weddings/home-hero-2857.jpg">
   <meta property="og:site_name" content="Khrystyna Skotte Photography">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Khrystyna Skotte | San Diego Wedding &amp; Elopement Photographer">
   <meta name="twitter:description" content="San Diego wedding and elopement photographer. Authentic, timeless coverage of full wedding days and intimate elopements.">
-  <meta name="twitter:image" content="https://www.khrystynaskotte.com/img/weddings/wedding-12.jpg">
+  <meta name="twitter:image" content="https://www.khrystynaskotte.com/img/weddings/home-hero-2857.jpg">
   <title>San Diego Wedding &amp; Elopement Photographer | Khrystyna Skotte</title>
 
   <!-- Fonts -->
@@ -102,6 +102,23 @@
   }
   </script>
   <noscript><style>.fade-in { opacity: 1 !important; transform: none !important; }</style></noscript>
+  <style>
+    /* Home hero: tablet and desktop show the landscape photo with the copy upper right; phones keep the copy centered */
+    @media (min-width: 768px) {
+      .hero { justify-content: flex-end; align-items: flex-start; }
+      .hero .hero-content { text-align: right; margin-right: 15vw; margin-top: 14vh; max-width: 640px; }
+    }
+    /* Phones: smaller copy in the sky, outline button, lighter overlay, so the photo leads */
+    @media (max-width: 767px) {
+      .hero { align-items: flex-start; }
+      .hero .hero-content { margin-top: 11vh; padding: 0 24px; }
+      .hero .hero-title { font-size: 2.25rem; margin-bottom: 10px; letter-spacing: 0.03em; }
+      .hero .hero-subtitle { font-size: 0.8rem; margin-bottom: 22px; letter-spacing: 0.14em; }
+      .hero .btn-primary { padding: 10px 22px; font-size: 0.78rem; background: transparent; border: 1px solid rgba(255, 255, 255, 0.85); }
+      .hero .hero-content > p:last-child { display: none; }
+      .hero-overlay { opacity: 0.6; }
+    }
+  </style>
 </head>
 <body class="home">
   <!-- shared-header:start -->
@@ -151,32 +168,16 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline poster="img/weddings/wedding-12.jpg">
-      <source src="video/margo-hero.mp4" type="video/mp4">
-    </video>
+    <picture>
+      <source media="(min-width: 768px)" srcset="img/weddings/home-hero-2853.jpg">
+      <img class="hero-video" src="img/weddings/home-hero-2857.jpg" alt="Bride seated on a green lawn with her gown spread around her, groom standing behind her looking out, trees and open sky above" style="width: 100%; height: 100%; object-position: 50% 50%;">
+    </picture>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1 class="hero-title">Your Wedding, Beautifully Told</h1>
       <p class="hero-subtitle">Weddings, Elopements &amp; Private Estates · San Diego and Beyond</p>
       <a href="contact.html#inquire" class="btn btn-primary">Check Your Date</a>
       <p style="margin: var(--space-4) 0 0; font-size: var(--text-sm); letter-spacing: .04em; color: rgba(255,255,255,.9);">100+ five-star clients &middot; Weddings from $2,200</p>
-    </div>
-  </section>
-
-  <!-- Social Proof Strip -->
-  <section style="background: var(--color-background-alt); padding: var(--space-5) 0;">
-    <div class="container">
-      <div class="fade-in" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-3) var(--space-6); text-align: center;">
-        <a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener"><img src="img/thumbtack-top-pro.webp" alt="Thumbtack Top Pro" style="height: 54px; width: auto;"></a>
-        <p style="margin: 0; font-size: var(--text-base);"><span style="color: #E0A82E; letter-spacing: 3px;">★★★★★</span>&nbsp;&nbsp;<a href="https://www.thumbtack.com/ca/san-diego/videographers/khrystyna-skotte-visuals/service/578778334302683147" target="_blank" rel="noopener" style="color: var(--color-text); text-decoration: underline;"><strong>36 five-star reviews on Thumbtack</strong></a> &middot; <strong>Top Pro</strong></p>
-      </div>
-      <blockquote class="fade-in" style="margin: var(--space-4) auto 0; max-width: 620px; text-align: center; font-style: italic; color: var(--color-text-muted); line-height: var(--leading-relaxed);">
-        "That level of collaboration, responsiveness, and care is rare."
-        <cite style="display: block; margin-top: var(--space-2); font-style: normal; font-weight: var(--font-semibold); color: var(--color-text);">Dechel M. &middot; Wedding Photography &amp; Film</cite>
-      </blockquote>
-      <p class="text-center" style="margin: var(--space-4) 0 0;">
-        <a href="pricing.html" style="color: var(--color-accent); font-weight: var(--font-semibold);">Elopements from $650 &middot; Weddings from $2,200 &middot; Full-day photo + film from $5,000 &middot; See all collections</a>
-      </p>
     </div>
   </section>
 
