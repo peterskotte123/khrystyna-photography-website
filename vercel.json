@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/picnic-proposals", "destination": "/proposals", "permanent": true },
-    { "source": "/engagements", "destination": "/proposals", "permanent": true },
+    { "source": "/engagements", "destination": "/engagement-session", "permanent": true },
     { "source": "/estate-weddings", "destination": "/weddings", "permanent": true }
   ]
 }
