@@ -84,6 +84,13 @@
     .ch-review { background: #fff; border-radius: var(--radius-md); padding: var(--space-6); }
     .ch-review p { margin: 0; }
     .ch-review .q { font-style: italic; color: #444; margin: var(--space-3) 0 var(--space-4); }
+    .ch-trust { background: var(--color-background-alt); padding: var(--space-6) 0; border-bottom: 1px solid var(--color-accent-light); }
+    .ch-trust-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .ch-trust-lead { font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-semibold); line-height: 1.35; margin: 0 0 var(--space-3); color: var(--color-text); }
+    .ch-trust-quote { margin: 0; font-style: italic; color: #555; font-size: var(--text-sm); line-height: 1.6; }
+    .ch-trust-stars { color: var(--color-accent); font-style: normal; letter-spacing: .1em; }
+    .ch-trust-who { font-style: normal; font-weight: 600; color: var(--color-text); white-space: nowrap; }
+    .ch-price-promise { text-align: center; font-weight: 600; margin: 0 0 var(--space-5); }
     .ch-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 var(--space-6); }
     .hero-sms { display: inline-block; margin-top: var(--space-4); color: #fff; text-decoration: underline; text-shadow: 0 1px 8px rgba(0,0,0,.5); font-size: var(--text-sm); letter-spacing: .04em; padding: 8px; }
   </style>
@@ -140,11 +147,21 @@
     <img class="hero-video" src="img/weddings/courthouse-hero-0547.jpg" alt="Bride and groom kiss inside a wood paneled elevator at the San Diego County Administration Center, her bouquet raised and the county seal behind them" style="width: 100%; height: 100%; object-position: 50% 50%;">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 class="hero-title">Married Downtown, by the Water</h1>
+      <h1 class="hero-title">Your Courthouse Wedding</h1>
       <p class="hero-subtitle">San Diego Courthouse Wedding Photography &middot; One Hour, $650</p>
       <a href="#inquire" class="btn btn-primary">Check Your Date</a>
       <p style="margin: 0;"><a href="sms:+16195776091" class="hero-sms">Or text your ceremony time: (619) 577-6091</a></p>
       <p style="margin: var(--space-4) 0 0; font-size: var(--text-sm); letter-spacing: .04em; color: rgba(255,255,255,.9);">100+ five-star clients &middot; 36 five-star reviews</p>
+    </div>
+  </section>
+
+  <!-- Reassurance and a short review -->
+  <section class="ch-trust">
+    <div class="container">
+      <div class="ch-trust-inner fade-in">
+        <p class="ch-trust-lead">A courthouse wedding is a real wedding. You deserve photos that feel like it.</p>
+        <p class="ch-trust-quote"><span class="ch-trust-stars" aria-label="Five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> &ldquo;We never felt awkward, nervous, or unsure of what to do because she guided us so naturally.&rdquo; <span class="ch-trust-who">Franklin D.</span></p>
+      </div>
     </div>
   </section>
 
@@ -208,6 +225,7 @@
           </div>
         </div>
         <p class="ch-opt-note" id="ch-opt-note" aria-live="polite">One Hour selected. It is filled in on the form below, and you can change it there.</p>
+        <p class="ch-price-promise">The price you see is the price you pay. No travel fee in San Diego County.</p>
         <p style="margin: 0 0 var(--space-3); font-weight: 600;">Every option includes</p>
         <ul class="ch-list">
           <li>Your ceremony and portraits after</li>
@@ -219,7 +237,7 @@
           <li>Any County Clerk office, or your own officiant</li>
           <li>Need a witness? I can sign as yours</li>
         </ul>
-        <p class="ch-addons"><strong>Want more?</strong> Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. Bringing more than 15 people? Add $100 and bring everyone. The price you see is the price you pay.</p>
+        <p class="ch-addons"><strong>Want more?</strong> Photo and film together is $1,350 for one hour of each: I shoot one and a trusted second shooter covers the other. Rush delivery in 3 to 4 days is $200. Bringing more than 15 people? Add $100 and bring everyone.</p>
         <p class="ch-addons" style="margin-top: var(--space-3); padding-top: 0; border-top: 0;"><strong>Holding your date:</strong> a $325 retainer (half) reserves it, and the rest is due after. Reschedule once with 30 days' notice. Unsafe weather reschedules at no charge and your retainer moves with the date.</p>
         <div class="ch-who">
           <img src="img/Khrystyna Photos/khrystyna photo.jpeg" alt="Khrystyna Skotte, San Diego photographer">
@@ -414,8 +432,9 @@
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">For texting the plan. I never call unless you ask.</p>
           </div>
           <div class="form-group">
-            <label class="form-label" for="inq-email">Email *</label>
-            <input class="form-input" type="email" id="inq-email" name="email" required autocomplete="email">
+            <label class="form-label" for="inq-email">Email</label>
+            <input class="form-input" type="email" id="inq-email" name="email" autocomplete="email">
+            <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">Optional. I reply by text.</p>
           </div>
           <div class="form-group">
             <label class="form-label" for="inq-venue">Which office or venue? *</label>
@@ -438,10 +457,6 @@
             <input class="form-input" type="text" id="inq-time" name="ceremony_time" placeholder="e.g. 10:30 AM" autocomplete="off">
           </div>
           <div class="form-group">
-            <label class="form-label" for="inq-guests">How many guests, if any?</label>
-            <input class="form-input" type="text" id="inq-guests" name="guest_count" inputmode="numeric" maxlength="20" placeholder="e.g. just us, or 8">
-          </div>
-          <div class="form-group">
             <label class="form-label" for="inq-coverage">Coverage</label>
             <select class="form-input" id="inq-coverage" name="coverage">
               <option value="" disabled selected>Choose one</option>
@@ -455,7 +470,7 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="inq-message">Anything else?</label>
-          <textarea class="form-input" id="inq-message" name="message" rows="3" placeholder="A spot you have in mind, a surprise, a tight timeline. Optional."></textarea>
+          <textarea class="form-input" id="inq-message" name="message" rows="3" placeholder="A spot you have in mind, how many are coming, a tight timeline. Optional."></textarea>
         </div>
         <div style="text-align: center; margin-top: var(--space-6);">
           <button type="submit" class="btn btn-primary">Check My Date</button>
@@ -574,6 +589,7 @@
 
         var rt = document.getElementById('inq-replyto');
         if (rt && email) rt.value = email;
+        else if (rt) rt.disabled = true;
 
         var honey = form.querySelector('[name="_honey"]');
         if (honey) honey.value = '';
