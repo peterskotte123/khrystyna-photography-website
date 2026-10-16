@@ -1,1 +1,6 @@
 ads-data/
+
+# synthetic ad panel outputs (model judgments), regenerate with run_panel.py
+ads-data/panel/runs/
+ads-data/panel/serp-watch/captures/
+ads-data/panel/serp-watch/.chrome-profile/

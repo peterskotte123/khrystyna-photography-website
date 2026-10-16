@@ -402,6 +402,10 @@
             <label class="form-label" for="inq-wedding">Wedding date, if set</label>
             <input class="form-input" type="text" id="inq-wedding" name="wedding_date" maxlength="40" placeholder="Optional. Helps me plan save-the-date timing." autocomplete="off">
           </div>
+          <div class="form-group">
+            <label class="form-label" for="inq-traveling">Where are you traveling from?</label>
+            <input class="form-input" type="text" id="inq-traveling" name="traveling_from" maxlength="60" placeholder="San Diego, or the city you're coming from" autocomplete="off">
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label" for="inq-message">Anything else?</label>
@@ -540,6 +544,7 @@
           if (get('timeframe')) extra.push('Timeframe: ' + get('timeframe'));
           if (get('coverage')) extra.push('Session: ' + get('coverage'));
           if (get('wedding_date')) extra.push('Wedding date: ' + get('wedding_date'));
+          if (get('traveling_from')) extra.push('Traveling from: ' + get('traveling_from'));
           msg.value = extra.length ? extra.join('. ') + '.' + (typedMessage ? '\n\n' + typedMessage : '') : typedMessage;
         }
 

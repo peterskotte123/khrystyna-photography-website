@@ -231,6 +231,10 @@
             <label class="form-label" for="inq-guests">Estimated Guest Count</label>
             <input class="form-input" type="number" id="inq-guests" name="guest_count" min="1" placeholder="e.g. 80 (skip for proposals and sessions)">
           </div>
+          <div class="form-group">
+            <label class="form-label" for="inq-traveling">Where are you traveling from?</label>
+            <input class="form-input" type="text" id="inq-traveling" name="traveling_from" maxlength="60" placeholder="San Diego, or the city you're coming from" autocomplete="off">
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label" for="inq-message">Tell me about your day *</label>
@@ -391,6 +395,12 @@
           var wrap = el.closest('.form-group') || el.parentElement;
           if (wrap && wrap.style.display === 'none') el.disabled = true;
         });
+        // The database copy keeps only the standard fields, so the travel
+        // origin rides along inside the message.
+        var msgEl = document.getElementById('inq-message');
+        var trav = get('traveling_from');
+        if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') !== 0) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+
         var g = document.getElementById('inq-gclid');
         if (g && !g.value) g.disabled = true;
 
