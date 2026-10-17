@@ -180,13 +180,18 @@
         const target = document.querySelector(href);
 
         if (target) {
-          const headerHeight = header.offsetHeight;
-          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-
-          window.scrollTo({
-            top: targetPosition,
+          const go = () => window.scrollTo({
+            top: target.getBoundingClientRect().top + window.pageYOffset - header.offsetHeight,
             behavior: 'smooth'
           });
+          go();
+          // Lazy images above the target load during the scroll and push it down; aim again until it lands.
+          let tries = 0;
+          const settle = setInterval(() => {
+            const off = target.getBoundingClientRect().top - header.offsetHeight;
+            if (Math.abs(off) < 4 || ++tries > 8) return clearInterval(settle);
+            go();
+          }, 700);
         }
       });
     });

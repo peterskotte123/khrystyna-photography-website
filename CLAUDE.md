@@ -258,3 +258,19 @@ after a week of hand-editing 14 copies of the same header.
 Shared chrome gets one source file and a script that stamps it, even on a
 site with no build step. Hand-copied headers drift the first time someone
 edits one page in a hurry.
+
+---
+
+## Anchor buttons landed short on phones
+
+### Problem
+On 2026-10-16 the hero "Check Your Date" button on `/courthouse-wedding` stopped about 1,300px above the form on a 390px phone.
+
+### Root Cause
+`initSmoothScroll()` computed the target position once. Lazy images between the hero and the form loaded during the smooth scroll and pushed the form down.
+
+### Solution
+`js/main.js` re-aims every 700ms (up to 8 times) until the target sits under the header. Bumped `main.js?v=10` on every page.
+
+### Key Learning
+Verify anchor jumps in headless Chrome at 390px, not just desktop. Any position computed before lazy images load is a guess.
