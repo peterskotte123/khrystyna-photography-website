@@ -30,6 +30,7 @@ ACTIVE = {
     "best-places-to-elope-in-san-diego.html": "elopements",
     "san-diego-wedding-photography-cost.html": "pricing",
     "proposals.html": "proposals",
+    "maternity.html": "maternity",
     "portfolio.html": "portfolio",
     "about.html": "about",
     "contact.html": "contact",
