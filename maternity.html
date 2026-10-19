@@ -18,7 +18,7 @@
     gtag('js', new Date());
     gtag('config', 'G-JWHEWK95P6');
   </script>
-  <meta name="description" content="San Diego maternity photographer. A one hour maternity session for $500 at the beach, a park, or your home: 100+ edited photos in 2 to 3 weeks, partner and kids welcome, no travel fee in San Diego County.">
+  <meta name="description" content="San Diego maternity photographer. A one hour maternity session for $500, two hours $750, photo and video from $1,000. 100+ edited photos in 2 to 3 weeks, partner and kids welcome, no travel fee in San Diego County.">
   <meta property="og:title" content="San Diego Maternity Photographer | One Hour, $500 | Khrystyna Skotte">
   <meta property="og:description" content="A relaxed one hour maternity session at golden hour, $500. 100+ edited photos in 2 to 3 weeks, partner and kids welcome, help with the spot and what to wear, no travel fee in San Diego County.">
   <meta property="og:url" content="https://www.khrystynaskotte.com/maternity">
@@ -49,6 +49,16 @@
     .ch-include-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-4); }
     .ch-include-head h3 { font-family: var(--font-heading); font-size: var(--text-2xl); margin: 0; }
     .ch-price { font-family: var(--font-heading); font-size: 2rem; color: var(--color-accent); font-weight: 600; }
+    .ch-options { display: grid; grid-template-columns: 1fr; gap: var(--space-3); margin-bottom: var(--space-5); }
+    @media (min-width: 640px) { .ch-options { grid-template-columns: repeat(2, 1fr); } }
+    .ch-opt { border: 1px solid var(--color-border, #e6e2dc); border-radius: var(--radius-md); padding: var(--space-4); text-align: center; display: flex; flex-direction: column; gap: var(--space-1); cursor: pointer; transition: border-color .2s, background-color .2s; }
+    .ch-opt:hover { border-color: var(--color-accent); }
+    .ch-opt-note { margin: calc(-1 * var(--space-3)) 0 var(--space-5); text-align: center; font-size: var(--text-sm); color: var(--color-accent); font-weight: 600; }
+    .ch-opt:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .ch-opt.ch-opt-featured { border-color: var(--color-accent); background: rgba(122, 132, 105, .06); }
+    .ch-opt h4 { font-family: var(--font-heading); font-size: var(--text-lg); margin: 0; font-weight: 500; }
+    .ch-opt .ch-price { font-size: 1.75rem; line-height: 1.1; }
+    .ch-opt p { margin: 0; color: var(--color-text-muted); font-size: var(--text-sm); }
     .ch-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-2) var(--space-5); }
     .ch-list li { padding-left: 1.4em; position: relative; color: var(--color-text); }
     .ch-list li::before { content: "\2713"; position: absolute; left: 0; color: var(--color-accent); font-weight: 600; }
@@ -71,6 +81,28 @@
     .ch-faq details p { margin: var(--space-2) 0 0; color: var(--color-text-muted); }
     .ch-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0 var(--space-6); }
     .hero-sms { display: inline-block; margin-top: var(--space-4); color: #fff; text-decoration: underline; text-shadow: 0 1px 8px rgba(0,0,0,.5); font-size: var(--text-sm); letter-spacing: .04em; padding: 8px; }
+    .estimator { display: grid; grid-template-columns: 1fr; gap: var(--space-6); max-width: 1000px; margin: 0 auto; }
+    @media (min-width: 900px) { .estimator { grid-template-columns: 1.1fr .9fr; align-items: start; } }
+    .est-form { display: flex; flex-direction: column; gap: var(--space-6); }
+    .est-label { display: block; font-family: var(--font-body); font-size: var(--text-sm); font-weight: var(--font-semibold); letter-spacing: .04em; text-transform: uppercase; color: var(--color-text); margin-bottom: var(--space-3); }
+    .est-hint { font-weight: var(--font-regular); text-transform: none; letter-spacing: 0; color: var(--color-text-muted); font-size: .8rem; }
+    .est-opts { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .est-opt { font-family: var(--font-body); font-size: .9rem; min-height: 44px; padding: var(--space-2) var(--space-4); display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--color-accent); background: transparent; color: var(--color-text); border-radius: var(--radius-md); cursor: pointer; transition: background .15s, color .15s; line-height: 1.2; }
+    .est-opt:hover { background: rgba(122, 132, 105, .12); }
+    .est-opt.est-active { background: var(--color-accent); color: #fff; }
+    .est-result { background: var(--color-background-alt); border: 1px solid rgba(122, 132, 105, .3); border-radius: var(--radius-md); padding: var(--space-6); position: sticky; top: 90px; }
+    .est-result-label { font-size: var(--text-sm); letter-spacing: .04em; text-transform: uppercase; color: var(--color-text-muted); margin: 0 0 var(--space-2); }
+    .est-amount { font-family: var(--font-heading); font-size: 2.4rem; color: var(--color-accent); line-height: 1.1; margin: 0 0 var(--space-2); }
+    .est-sub { font-size: .9rem; color: #444; margin: 0 0 var(--space-4); line-height: 1.5; }
+    .est-incl { list-style: none; padding: 0; margin: 0 0 var(--space-4); }
+    .est-incl li { position: relative; padding-left: 1.4rem; margin-bottom: .5rem; font-size: .9rem; color: #444; line-height: 1.45; }
+    .est-incl li::before { content: "\2713"; position: absolute; left: 0; color: var(--color-accent); font-size: .85rem; }
+    .est-total { font-size: .95rem; color: var(--color-text); margin: var(--space-3) 0 var(--space-2); padding-top: var(--space-3); border-top: 1px dashed rgba(122,132,105,.4); }
+    .est-total strong { color: var(--color-accent); font-size: 1.1rem; font-family: var(--font-heading); }
+    .est-disclaimer { font-size: .78rem; color: #777; font-style: italic; margin: var(--space-3) 0 var(--space-4); line-height: 1.45; }
+    .est-result .btn { display: block; width: 100%; text-align: center; }
+    .est-placeholder { color: var(--color-text-muted); font-size: .95rem; line-height: 1.6; }
+    .price-note { text-align: center; max-width: 640px; margin: 0 auto var(--space-6); color: var(--color-text-muted); }
     .mt-when { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); max-width: 900px; margin: var(--space-6) auto 0; text-align: center; }
     .mt-when div { background: #fff; border-radius: var(--radius-md); padding: var(--space-5); }
     .mt-when strong { display: block; font-family: var(--font-heading); font-size: var(--text-2xl); color: var(--color-accent); margin-bottom: var(--space-1); }
@@ -183,7 +215,7 @@
     <div class="container">
       <div class="pricing-strip-inner fade-in">
         <p class="pricing-strip-label">Maternity Sessions</p>
-        <p class="pricing-strip-prices"><span>One hour $500</span> <span class="pricing-strip-sep">&middot;</span> <span>Partner and kids included</span> <span class="pricing-strip-sep">&middot;</span> <span>No travel fee in San Diego County</span></p>
+        <p class="pricing-strip-prices"><span>One hour $500</span> <span class="pricing-strip-sep">&middot;</span> <span>Two hours $750</span> <span class="pricing-strip-sep">&middot;</span> <span>Photo + Video $1,000</span> <span class="pricing-strip-sep">&middot;</span> <span>No travel fee in San Diego County</span></p>
         <a href="#included" class="pricing-strip-link">See What's Included</a>
       </div>
     </div>
@@ -217,19 +249,47 @@
       <div class="ch-include fade-in" id="included">
         <div class="ch-include-head">
           <h3>Maternity Session</h3>
-          <p class="ch-price">$500</p>
+          <p style="margin: 0; color: var(--color-text-muted); font-size: var(--text-sm);">Pick the session that fits</p>
         </div>
-        <p style="margin: 0 0 var(--space-3); font-weight: 600;">One hour includes</p>
+        <div class="ch-options">
+          <div class="ch-opt ch-opt-featured" role="button" tabindex="0" aria-pressed="true" data-coverage="One hour maternity session, photo, $500">
+            <h4>Photo, One Hour</h4>
+            <p class="ch-price">$500</p>
+            <p>One spot at golden hour, one outfit or two. 100+ edited photos. Most moms choose this.</p>
+          </div>
+          <div class="ch-opt" role="button" tabindex="0" aria-pressed="false" data-coverage="Two hour maternity session, photo, $750">
+            <h4>Photo, Two Hours</h4>
+            <p class="ch-price">$750</p>
+            <p>Two spots or a second outfit, with time to sit. 150+ edited photos.</p>
+          </div>
+          <div class="ch-opt" role="button" tabindex="0" aria-pressed="false" data-coverage="One hour maternity session, photo and video, $1,000">
+            <h4>Photo + Video, One Hour</h4>
+            <p class="ch-price">$1,000</p>
+            <p>100+ photos and a 2 to 3 minute highlight film, one team, one hour.</p>
+          </div>
+          <div class="ch-opt" role="button" tabindex="0" aria-pressed="false" data-coverage="Two hour maternity session, photo and video, $1,500">
+            <h4>Photo + Video, Two Hours</h4>
+            <p class="ch-price">$1,500</p>
+            <p>150+ photos and the highlight film, with a second spot or a sunset finish.</p>
+          </div>
+          <div class="ch-opt" role="button" tabindex="0" aria-pressed="false" data-coverage="One hour maternity session, video only, $500">
+            <h4>Video Only, One Hour</h4>
+            <p class="ch-price">$500</p>
+            <p>A 2 to 3 minute highlight film and no stills, for the moms who want it moving.</p>
+          </div>
+        </div>
+        <p class="ch-opt-note" id="ch-opt-note" aria-live="polite">Photo, One Hour selected. It is filled in on the form below, and you can change it there.</p>
+        <p style="margin: 0 0 var(--space-3); font-weight: 600;">Every option includes</p>
         <ul class="ch-list">
-          <li>100+ edited photos, light natural skin retouching on every one</li>
+          <li>Edited photos: 100+ for one hour, 150+ for two, with light natural retouching</li>
           <li>Your partner, your kids, and the dog, at no extra charge</li>
-          <li>One spot at golden hour, one outfit or two</li>
+          <li>Golden hour, one outfit or two; video sessions add a 2 to 3 minute highlight film</li>
           <li>Private online gallery in 2 to 3 weeks, full resolution downloads</li>
           <li>Planning help with the timing, the spot, and what to wear</li>
           <li>No travel fee anywhere in San Diego County</li>
         </ul>
-        <p class="ch-addons"><strong>Want more?</strong> A second spot or a second hour is $250. Rush delivery in 3 to 4 days is $200. The price you see is the price you pay.</p>
-        <p class="ch-addons" style="margin-top: var(--space-3); padding-top: 0; border-top: 0;"><strong>Holding your date:</strong> a $250 retainer reserves it, and the rest is due after. Reschedule once with 30 days' notice. If the baby has other plans, or the weather does, we move the date at no charge and your retainer moves with it.</p>
+        <p class="ch-addons"><strong>Want more?</strong> A second location is $250. Rush delivery in 3 to 4 days is $200. An heirloom album starts at $250. The price you see is the price you pay.</p>
+        <p class="ch-addons" style="margin-top: var(--space-3); padding-top: 0; border-top: 0;"><strong>Holding your date:</strong> a retainer of half your session reserves it, and the rest is due after. Reschedule once with 30 days' notice. If the baby has other plans, or the weather does, we move the date at no charge and your retainer moves with it.</p>
         <div class="ch-who">
           <img src="img/Khrystyna Photos/khrystyna photo.jpeg" alt="Khrystyna Skotte, San Diego photographer">
           <p><strong>Hi, I'm Khrystyna.</strong> I am the one who texts you back, the one walking the beach with you, and the one editing your gallery. No studio, no hand-offs.</p>
@@ -274,6 +334,47 @@
     </div>
   </section>
 
+  <!-- Price Estimator -->
+  <section class="section section-alt" id="estimator">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Quick Estimate</p>
+        <h2 class="section-title">Estimate Your Session</h2>
+      </div>
+      <p class="price-note">A price in three taps, no email required. The final quote just confirms the details, it will not jump categories.</p>
+      <div class="estimator fade-in">
+        <div class="est-form">
+          <div class="est-q">
+            <span class="est-label">How long?</span>
+            <div class="est-opts" data-group="hours">
+              <button type="button" class="est-opt" data-value="1">One hour</button>
+              <button type="button" class="est-opt" data-value="2">Two hours</button>
+            </div>
+          </div>
+          <div class="est-q">
+            <span class="est-label">Photo, video, or both?</span>
+            <div class="est-opts" data-group="media">
+              <button type="button" class="est-opt" data-value="photo">Photo</button>
+              <button type="button" class="est-opt" data-value="video">Video</button>
+              <button type="button" class="est-opt" data-value="both">Photo + Video</button>
+            </div>
+          </div>
+          <div class="est-q">
+            <span class="est-label">Add-ons? <span class="est-hint">(optional)</span></span>
+            <div class="est-opts" data-group="addons" data-multi="true">
+              <button type="button" class="est-opt" data-value="Second location">Second location, $250</button>
+              <button type="button" class="est-opt" data-value="Rush delivery">Rush delivery, $200</button>
+              <button type="button" class="est-opt" data-value="Heirloom album">Heirloom album, from $250</button>
+            </div>
+          </div>
+        </div>
+        <aside class="est-result" id="estResult" aria-live="polite">
+          <p class="est-placeholder">Pick a length and photo or video, and your price appears here.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="section" id="faq">
     <div class="container">
@@ -305,6 +406,10 @@
         <details>
           <summary>Do you have gowns I can borrow?</summary>
           <p>No, and I think your own clothes photograph better anyway. If you want something flowing for the session, a long dress from your closet or a rental works, and I will tell you what will move well in the wind.</p>
+        </details>
+        <details>
+          <summary>Do you do video?</summary>
+          <p>Yes. Photo and video together is $1,000 for one hour or $1,500 for two: the full photo gallery plus a 2 to 3 minute highlight film, shot by me in the same hour. Video on its own is $500 for an hour. The film arrives with the gallery.</p>
         </details>
         <details>
           <summary>Can we do photos once the baby is here?</summary>
@@ -387,8 +492,11 @@
             <label class="form-label" for="inq-coverage">Session</label>
             <select class="form-input" id="inq-coverage" name="coverage">
               <option value="" disabled selected>Choose one</option>
-              <option>One hour maternity session, $500</option>
-              <option>Maternity now and a family session after, ask me</option>
+              <option>One hour maternity session, photo, $500</option>
+              <option>Two hour maternity session, photo, $750</option>
+              <option>One hour maternity session, photo and video, $1,000</option>
+              <option>Two hour maternity session, photo and video, $1,500</option>
+              <option>One hour maternity session, video only, $500</option>
               <option>Not sure yet</option>
             </select>
           </div>
@@ -466,10 +574,66 @@
 
   <script src="js/main.js?v=10"></script>
   <script>
+    (function () {
+      var root = document.getElementById('estimator'); if (!root) return;
+      var out = document.getElementById('estResult');
+      var PHOTO = { 1: 500, 2: 750 }, VIDEO = { 1: 500, 2: 750 }, BOTH = { 1: 1000, 2: 1500 };
+      var PHOTOS = { 1: '100+', 2: '150+' };
+      var ADDONS = { 'Second location': [250, false], 'Rush delivery': [200, false], 'Heirloom album': [250, true] };
+      var state = { hours: null, media: null, addons: [] };
+      function money(n) { return '$' + n.toLocaleString('en-US'); }
+      function render() {
+        if (!state.hours || !state.media) {
+          out.innerHTML = '<p class="est-placeholder">Pick a length and photo or video, and your price appears here.</p>'; return;
+        }
+        var h = state.hours, base = (state.media === 'photo' ? PHOTO : state.media === 'video' ? VIDEO : BOTH)[h];
+        var label = (state.media === 'photo' ? 'Photo' : state.media === 'video' ? 'Video' : 'Photo + Video') + ', ' + (h === 1 ? 'one hour' : 'two hours');
+        var incl = [];
+        if (state.media !== 'video') incl.push(PHOTOS[h] + ' edited photos, light natural retouching');
+        if (state.media !== 'photo') incl.push('2 to 3 minute highlight film');
+        incl.push(h === 1 ? 'One spot at golden hour, one outfit or two' : 'Two spots or a second outfit, time to sit');
+        incl.push('Partner, kids and the dog included'); incl.push('Gallery in 2 to 3 weeks, no travel fee in the county');
+        var extra = 0, from = false, lines = [];
+        state.addons.forEach(function (k) { extra += ADDONS[k][0]; if (ADDONS[k][1]) from = true; lines.push(k + ' ' + (ADDONS[k][1] ? 'from ' : '') + money(ADDONS[k][0])); });
+        var html = '<p class="est-result-label">' + label + '</p><p class="est-amount">' + money(base) + '</p>' +
+          '<ul class="est-incl">' + incl.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>';
+        if (lines.length) html += '<p class="est-sub">' + lines.join('. ') + '.</p><div class="est-total">Estimated total: <strong>' + (from ? 'From ' : '') + money(base + extra) + '</strong></div>';
+        html += '<p class="est-disclaimer">A retainer of half holds the date, the rest is due after. The price you see is the price you pay.</p>' +
+          '<a href="#inquire" class="btn btn-primary">Check Your Date</a>';
+        out.innerHTML = html;
+      }
+      root.addEventListener('click', function (e) {
+        var btn = e.target.closest('.est-opt'); if (!btn) return;
+        var wrap = btn.closest('.est-opts'), group = wrap.getAttribute('data-group'), v = btn.getAttribute('data-value');
+        if (wrap.getAttribute('data-multi')) {
+          btn.classList.toggle('est-active');
+          state.addons = Array.prototype.map.call(wrap.querySelectorAll('.est-active'), function (b) { return b.getAttribute('data-value'); });
+        } else {
+          wrap.querySelectorAll('.est-opt').forEach(function (b) { b.classList.remove('est-active'); }); btn.classList.add('est-active');
+          state[group] = group === 'hours' ? parseInt(v, 10) : v;
+        }
+        render();
+      });
+    })();
+  </script>
+  <script>
     // Same submit path as contact.html and engagement-session.html: FormSubmit gets
     // the POST for the email, a JSON copy goes to our database with the traffic
     // source, and thanks.html reads inq_type from sessionStorage to value the lead.
     (function () {
+      var tiles = document.querySelectorAll('.ch-opt[data-coverage]');
+      function pick(t) {
+        tiles.forEach(function (x) { x.classList.toggle('ch-opt-featured', x === t); x.setAttribute('aria-pressed', x === t ? 'true' : 'false'); });
+        var note = document.getElementById('ch-opt-note');
+        if (note) note.textContent = t.querySelector('h4').textContent + ' selected. It is filled in on the form below, and you can change it there.';
+        var sel = document.getElementById('inq-coverage'); if (!sel) return;
+        var want = t.getAttribute('data-coverage');
+        Array.prototype.forEach.call(sel.options, function (o) { if (o.text === want) sel.value = o.value || o.text; });
+      }
+      tiles.forEach(function (t) {
+        t.addEventListener('click', function () { pick(t); });
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(t); } });
+      });
       var form = document.getElementById('maternityForm');
       if (!form) return;
 
