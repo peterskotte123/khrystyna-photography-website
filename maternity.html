@@ -18,7 +18,7 @@
     gtag('js', new Date());
     gtag('config', 'G-JWHEWK95P6');
   </script>
-  <meta name="description" content="San Diego maternity photographer. A one hour maternity session for $500, two hours $750, photo and video from $1,000. 100+ edited photos in 2 to 3 weeks, partner and kids welcome, no travel fee in San Diego County.">
+  <meta name="description" content="San Diego maternity photographer. A 30 minute mini for $375, one hour for $500, two hours $750, photo and video from $1,000. 100+ edited photos in 2 to 3 weeks, partner and kids welcome, no travel fee in San Diego County.">
   <meta property="og:title" content="San Diego Maternity Photographer | One Hour, $500 | Khrystyna Skotte">
   <meta property="og:description" content="A relaxed one hour maternity session at golden hour, $500. 100+ edited photos in 2 to 3 weeks, partner and kids welcome, help with the spot and what to wear, no travel fee in San Diego County.">
   <meta property="og:url" content="https://www.khrystynaskotte.com/maternity">
@@ -215,7 +215,7 @@
     <div class="container">
       <div class="pricing-strip-inner fade-in">
         <p class="pricing-strip-label">Maternity Sessions</p>
-        <p class="pricing-strip-prices"><span>One hour $500</span> <span class="pricing-strip-sep">&middot;</span> <span>Two hours $750</span> <span class="pricing-strip-sep">&middot;</span> <span>Photo + Video $1,000</span> <span class="pricing-strip-sep">&middot;</span> <span>No travel fee in San Diego County</span></p>
+        <p class="pricing-strip-prices"><span>Mini, 30 minutes $375</span> <span class="pricing-strip-sep">&middot;</span> <span>One hour $500</span> <span class="pricing-strip-sep">&middot;</span> <span>Two hours $750</span> <span class="pricing-strip-sep">&middot;</span> <span>Photo + Video $1,000</span> <span class="pricing-strip-sep">&middot;</span> <span>No travel fee in San Diego County</span></p>
         <a href="#included" class="pricing-strip-link">See What's Included</a>
       </div>
     </div>
@@ -252,6 +252,11 @@
           <p style="margin: 0; color: var(--color-text-muted); font-size: var(--text-sm);">Pick the session that fits</p>
         </div>
         <div class="ch-options">
+          <div class="ch-opt" role="button" tabindex="0" aria-pressed="false" data-coverage="Mini maternity session, 30 minutes, photo, $375">
+            <h4>Mini, 30 Minutes</h4>
+            <p class="ch-price">$375</p>
+            <p>One spot, one outfit, the bump and the two of you. 50+ edited photos.</p>
+          </div>
           <div class="ch-opt ch-opt-featured" role="button" tabindex="0" aria-pressed="true" data-coverage="One hour maternity session, photo, $500">
             <h4>Photo, One Hour</h4>
             <p class="ch-price">$500</p>
@@ -281,7 +286,7 @@
         <p class="ch-opt-note" id="ch-opt-note" aria-live="polite">Photo, One Hour selected. It is filled in on the form below, and you can change it there.</p>
         <p style="margin: 0 0 var(--space-3); font-weight: 600;">Every option includes</p>
         <ul class="ch-list">
-          <li>Edited photos: 100+ for one hour, 150+ for two, with light natural retouching</li>
+          <li>Edited photos: 50+ for the mini, 100+ for one hour, 150+ for two, with light natural retouching</li>
           <li>Your partner, your kids, and the dog, at no extra charge</li>
           <li>Golden hour, one outfit or two; video sessions add a 2 to 3 minute highlight film</li>
           <li>Private online gallery in 2 to 3 weeks, full resolution downloads</li>
@@ -347,6 +352,7 @@
           <div class="est-q">
             <span class="est-label">How long?</span>
             <div class="est-opts" data-group="hours">
+              <button type="button" class="est-opt" data-value="0.5">Mini, 30 minutes</button>
               <button type="button" class="est-opt" data-value="1">One hour</button>
               <button type="button" class="est-opt" data-value="2">Two hours</button>
             </div>
@@ -406,6 +412,10 @@
         <details>
           <summary>Do you have gowns I can borrow?</summary>
           <p>No, and I think your own clothes photograph better anyway. If you want something flowing for the session, a long dress from your closet or a rental works, and I will tell you what will move well in the wind.</p>
+        </details>
+        <details>
+          <summary>Is there a shorter session?</summary>
+          <p>Yes. The mini is 30 minutes at one spot for $375, with 50+ edited photos. It suits a quick golden hour before dinner, a second trimester you want on record, or a budget that stops at $400. Partner and kids still come along.</p>
         </details>
         <details>
           <summary>Do you do video?</summary>
@@ -492,6 +502,7 @@
             <label class="form-label" for="inq-coverage">Session</label>
             <select class="form-input" id="inq-coverage" name="coverage">
               <option value="" disabled selected>Choose one</option>
+              <option>Mini maternity session, 30 minutes, photo, $375</option>
               <option>One hour maternity session, photo, $500</option>
               <option>Two hour maternity session, photo, $750</option>
               <option>One hour maternity session, photo and video, $1,000</option>
@@ -577,8 +588,8 @@
     (function () {
       var root = document.getElementById('estimator'); if (!root) return;
       var out = document.getElementById('estResult');
-      var PHOTO = { 1: 500, 2: 750 }, VIDEO = { 1: 500, 2: 750 }, BOTH = { 1: 1000, 2: 1500 };
-      var PHOTOS = { 1: '100+', 2: '150+' };
+      var PHOTO = { 0.5: 375, 1: 500, 2: 750 }, VIDEO = { 1: 500, 2: 750 }, BOTH = { 1: 1000, 2: 1500 };
+      var PHOTOS = { 0.5: '50+', 1: '100+', 2: '150+' };
       var ADDONS = { 'Second location': [250, false], 'Rush delivery': [200, false], 'Heirloom album': [250, true] };
       var state = { hours: null, media: null, addons: [] };
       function money(n) { return '$' + n.toLocaleString('en-US'); }
@@ -586,12 +597,16 @@
         if (!state.hours || !state.media) {
           out.innerHTML = '<p class="est-placeholder">Pick a length and photo or video, and your price appears here.</p>'; return;
         }
-        var h = state.hours, base = (state.media === 'photo' ? PHOTO : state.media === 'video' ? VIDEO : BOTH)[h];
-        var label = (state.media === 'photo' ? 'Photo' : state.media === 'video' ? 'Video' : 'Photo + Video') + ', ' + (h === 1 ? 'one hour' : 'two hours');
+        var h = state.hours;
+        if (h === 0.5 && state.media !== 'photo') {
+          out.innerHTML = '<p class="est-placeholder">The 30 minute mini is photo only. Pick one hour for video or photo + video, or switch to Photo.</p>'; return;
+        }
+        var base = (state.media === 'photo' ? PHOTO : state.media === 'video' ? VIDEO : BOTH)[h];
+        var label = (state.media === 'photo' ? 'Photo' : state.media === 'video' ? 'Video' : 'Photo + Video') + ', ' + (h === 0.5 ? 'mini, 30 minutes' : h === 1 ? 'one hour' : 'two hours');
         var incl = [];
         if (state.media !== 'video') incl.push(PHOTOS[h] + ' edited photos, light natural retouching');
         if (state.media !== 'photo') incl.push('2 to 3 minute highlight film');
-        incl.push(h === 1 ? 'One spot at golden hour, one outfit or two' : 'Two spots or a second outfit, time to sit');
+        incl.push(h === 0.5 ? 'One spot, one outfit, quick and sweet' : h === 1 ? 'One spot at golden hour, one outfit or two' : 'Two spots or a second outfit, time to sit');
         incl.push('Partner, kids and the dog included'); incl.push('Gallery in 2 to 3 weeks, no travel fee in the county');
         var extra = 0, from = false, lines = [];
         state.addons.forEach(function (k) { extra += ADDONS[k][0]; if (ADDONS[k][1]) from = true; lines.push(k + ' ' + (ADDONS[k][1] ? 'from ' : '') + money(ADDONS[k][0])); });
@@ -610,7 +625,7 @@
           state.addons = Array.prototype.map.call(wrap.querySelectorAll('.est-active'), function (b) { return b.getAttribute('data-value'); });
         } else {
           wrap.querySelectorAll('.est-opt').forEach(function (b) { b.classList.remove('est-active'); }); btn.classList.add('est-active');
-          state[group] = group === 'hours' ? parseInt(v, 10) : v;
+          state[group] = group === 'hours' ? parseFloat(v) : v;
         }
         render();
       });
