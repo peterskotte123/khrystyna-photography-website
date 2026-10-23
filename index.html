@@ -108,7 +108,9 @@
       .hero { justify-content: flex-end; align-items: flex-start; }
       .hero .hero-content { text-align: right; margin-right: 15vw; margin-top: 14vh; max-width: 640px; }
     }
-    /* Phones: smaller copy in the sky, outline button, lighter overlay, so the photo leads */
+    .hero-overlay { background: rgba(0, 0, 0, 0.25); }
+    .hero .hero-subtitle { opacity: 1; font-weight: 400; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 18px rgba(0, 0, 0, 0.55); }
+    /* Phones: smaller copy in the sky, outline button, so the photo leads */
     @media (max-width: 767px) {
       .hero { align-items: flex-start; }
       .hero .hero-content { margin-top: 11vh; padding: 0 24px; }
@@ -116,7 +118,6 @@
       .hero .hero-subtitle { font-size: 0.8rem; margin-bottom: 22px; letter-spacing: 0.14em; }
       .hero .btn-primary { padding: 10px 22px; font-size: 0.78rem; background: transparent; border: 1px solid rgba(255, 255, 255, 0.85); }
       .hero .hero-content > p:last-child { display: none; }
-      .hero-overlay { opacity: 0.6; }
     }
   </style>
 </head>
