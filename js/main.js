@@ -29,7 +29,10 @@
     if (bookBar) {
       const hero = document.querySelector('.hero');
       const trigger = hero ? hero.offsetHeight * 0.8 : 400;
-      bookBar.classList.toggle('visible', window.scrollY > trigger);
+      // Once the on-page inquiry form is in view the bar would only cover it.
+      const form = document.getElementById('inquire');
+      const atForm = form && form.getBoundingClientRect().top < window.innerHeight * 0.6;
+      bookBar.classList.toggle('visible', window.scrollY > trigger && !atForm);
     }
   }
 
@@ -314,6 +317,126 @@
     } catch (e) { done(); }
   };
 
+  // The shared inquiry form stamped at the foot of landing pages by
+  // sync_partials.py (partials/inquiry-form.html). Same fields and the same
+  // send path as contact.html: a copy to our database, then ksSend to
+  // Formspree. The page's preset type (hidden #inq-preset) or ?type= in the
+  // URL picks the inquiry type, and the wedding-only fields hide for the
+  // smaller shoots.
+  function initInquiryForm() {
+    const form = document.querySelector('form[data-shared-inquiry]');
+    if (!form) return;
+    const $ = (id) => document.getElementById(id);
+    const sel = $('inq-type');
+    const preset = new URLSearchParams(window.location.search).get('type') || ($('inq-preset') || {}).value || '';
+    if (sel && preset) {
+      for (let i = 0; i < sel.options.length; i++) if (sel.options[i].text === preset) { sel.selectedIndex = i; break; }
+    }
+
+    function shape() {
+      const opt = sel && sel.options[sel.selectedIndex];
+      const type = opt ? opt.text : '';
+      const isProposal = type === 'Surprise Proposal';
+      const small = ['Surprise Proposal', 'Elopement', 'Engagement Session', 'Portraits, Family, or Maternity'].includes(type);
+      const wrap = (el) => el && (el.closest('.form-group') || el.parentElement);
+      if (wrap($('inq-planner'))) wrap($('inq-planner')).style.display = small ? 'none' : '';
+      const guests = $('inq-guests');
+      if (guests) {
+        wrap(guests).style.display = isProposal ? 'none' : '';
+        const gLabel = document.querySelector('label[for="inq-guests"]');
+        if (gLabel) gLabel.textContent = type === 'Elopement' ? 'How many guests, if any?' : 'Estimated Guest Count';
+        guests.placeholder = type === 'Elopement' ? 'e.g. just us, or 8' : 'e.g. 80 (skip for proposals and sessions)';
+      }
+      const venue = $('inq-venue');
+      if (venue) venue.placeholder = isProposal ? 'e.g. Sunset Cliffs, La Jolla, or "help me pick"' : 'e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs';
+      const msgLabel = document.querySelector('label[for="inq-message"]');
+      if (msgLabel) msgLabel.textContent = isProposal ? 'Tell me about the plan *' : 'Tell me about your day *';
+      const date = $('inq-date'), dateLabel = document.querySelector('label[for="inq-date"]');
+      if (date && dateLabel) {
+        date.type = isProposal ? 'text' : 'date';
+        date.placeholder = isProposal ? 'e.g. in town Nov 6 to 9, flexible on which evening' : '';
+        dateLabel.textContent = isProposal ? 'Your date, or your travel window' : 'Date (or target proposal date)';
+      }
+      const next = $('inq-next');
+      if (next) next.value = 'https://www.khrystynaskotte.com/thanks' + (isProposal ? '?type=proposal' : '');
+    }
+    if (sel) sel.addEventListener('change', shape);
+    shape();
+
+    // Phone: any formatting, but a real 10 digit US number or an international one starting with +.
+    const phone = $('inq-phone');
+    if (phone) {
+      const checkPhone = () => {
+        const digits = phone.value.replace(/\D/g, '');
+        const intl = phone.value.trim().charAt(0) === '+' && digits.length >= 8 && digits.length <= 15;
+        const ok = digits.length === 10 || (digits.length === 11 && digits.charAt(0) === '1') || intl;
+        phone.setCustomValidity(!phone.value || ok ? '' : 'Enter a 10-digit US number like (619) 555-0123, or an international number starting with +');
+      };
+      phone.addEventListener('input', checkPhone);
+      checkPhone();
+    }
+
+    form.addEventListener('submit', function (e) {
+      if (window.ksSend) e.preventDefault();
+      const get = (n) => { const el = form.querySelector('[name="' + n + '"]'); return el && el.value ? el.value.trim() : ''; };
+      const email = get('email').toLowerCase();
+      const digits = get('phone').replace(/\D/g, '');
+      const typeTxt = sel && sel.selectedIndex > -1 ? sel.options[sel.selectedIndex].text : '';
+
+      const rt = $('inq-replyto');
+      if (rt && email) rt.value = email;
+      const honey = form.querySelector('[name="_honey"]');
+      if (honey) honey.value = '';
+      const subj = $('inq-subject');
+      if (subj) subj.value = (typeTxt && typeTxt !== 'Choose one' ? typeTxt : 'Inquiry') + ' - ' + (get('name') || 'website') + ' - khrystynaskotte.com';
+      ['inq-planner', 'inq-guests'].forEach((id) => {
+        const el = $(id);
+        const wrap = el && (el.closest('.form-group') || el.parentElement);
+        if (wrap && wrap.style.display === 'none') el.disabled = true;
+      });
+      const msgEl = $('inq-message'), trav = get('traveling_from');
+      if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') !== 0) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+
+      let stored = null;
+      try { stored = JSON.parse(localStorage.getItem('ks_gclid') || 'null'); } catch (err) {}
+      const g = $('inq-gclid');
+      if (g) {
+        if (stored && stored.value) { g.value = stored.value; if (stored.kind && stored.kind !== 'gclid') g.name = stored.kind; }
+        else g.disabled = true;
+      }
+
+      const ud = {};
+      if (email) ud.email = email;
+      if (digits.length === 10) ud.phone_number = '+1' + digits;
+      else if (digits.length === 11 && digits[0] === '1') ud.phone_number = '+' + digits;
+      try {
+        sessionStorage.setItem('inq_ud', JSON.stringify(ud));
+        sessionStorage.setItem('inq_type', typeTxt || '');
+        sessionStorage.setItem('inq_submitted', '1');
+        sessionStorage.removeItem('inq_fired');
+      } catch (err) {}
+
+      try {
+        const fields = {};
+        new FormData(form).forEach((v, k) => { if (k.indexOf('_') !== 0 || k === '_honey') fields[k] = typeof v === 'string' ? v : ''; });
+        fetch('https://wurikcpajrkvmnohungl.supabase.co/functions/v1/site-inquiry', {
+          method: 'POST', mode: 'cors', keepalive: true,
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            fields,
+            click_id: stored && stored.value ? stored.value : '',
+            click_id_kind: stored && stored.kind ? stored.kind : '',
+            first_touch: JSON.parse(localStorage.getItem('ks_first_touch') || 'null'),
+            session_touch: JSON.parse(sessionStorage.getItem('ks_session_touch') || 'null'),
+            page: window.location.pathname + window.location.search
+          })
+        }).catch(() => {});
+      } catch (err) {}
+
+      if (window.ksSend) window.ksSend(form);
+    });
+  }
+
   // Initialize everything
   function initHashLanding() {
     // Ad final URLs land on anchors (#courthouse, #estimator). The browser
@@ -361,6 +484,7 @@
     initGclidCapture();
     initTouchCapture();
     initConversionTracking();
+    initInquiryForm();
     initHashLanding();
   }
 
