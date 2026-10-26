@@ -133,7 +133,7 @@
     <div class="hero-content">
       <h1 class="hero-title">Just the Two of You</h1>
       <p class="hero-subtitle">San Diego Elopement Photography &middot; Sunset Cliffs, Coronado Beach &amp; the Coast &middot; From $650</p>
-      <a href="contact.html?type=Elopement#inquire" class="btn btn-primary">Plan Your Elopement</a>
+      <a href="#inquire" data-type="Elopement" class="btn btn-primary">Plan Your Elopement</a>
       <p style="margin: var(--space-4) 0 0; font-size: var(--text-sm); letter-spacing: .04em; color: rgba(255,255,255,.9);">100+ five-star clients &middot; 36 five-star reviews</p>
     </div>
   </section>
@@ -165,7 +165,7 @@
           <p class="about-text">
             You'll get a gallery full of real moments, the wind, the laughter, the vows only you two heard, edited in a timeless style you'll love decades from now. Every couple is welcome here.
           </p>
-          <a href="contact.html?type=Elopement#inquire" class="btn btn-primary" style="display: block; width: fit-content; margin-left: auto; margin-right: auto;">Check Your Date</a>
+          <a href="#inquire" data-type="Elopement" class="btn btn-primary" style="display: block; width: fit-content; margin-left: auto; margin-right: auto;">Check Your Date</a>
         </div>
       </div>
     </div>
@@ -417,7 +417,7 @@
     function render(html) { resultEl.innerHTML = html; }
 
     function cta() {
-      return '<a href="contact.html?type=Elopement#inquire" class="btn btn-primary">Check Your Date</a>';
+      return '<a href="#inquire" data-type="Elopement" class="btn btn-primary">Check Your Date</a>';
     }
     function disclaimer() {
       return '<p class="est-disclaimer">A starting estimate from current collection pricing. Your final quote confirms the details, it won’t jump categories.</p>';
@@ -676,7 +676,7 @@
   </section>
 
   <!-- shared-form:start -->
-  <section class="section section-alt" id="inquire">
+  <section class="section section-alt" id="inquire" style="border-top: 1px solid #dfe3dc;">
     <div class="container">
       <div class="section-header">
         <p class="section-label">Elopements</p>
@@ -811,6 +811,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=12"></script>
+  <script src="js/main.js?v=13"></script>
 </body>
 </html>

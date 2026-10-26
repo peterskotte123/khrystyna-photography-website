@@ -348,20 +348,34 @@
         guests.placeholder = type === 'Elopement' ? 'e.g. just us, or 8' : 'e.g. 80 (skip for proposals and sessions)';
       }
       const venue = $('inq-venue');
-      if (venue) venue.placeholder = isProposal ? 'e.g. Sunset Cliffs, La Jolla, or "help me pick"' : 'e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs';
+      if (venue) venue.placeholder = isProposal ? 'e.g. Sunset Cliffs, La Jolla, or "help me pick"'
+        : type === 'Elopement' ? 'e.g. Sunset Cliffs, Torrey Pines, or "help me pick"'
+        : 'e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs';
+      // With the type already chosen, the contact page's cross-type hedges are noise.
+      const plannerLabel = document.querySelector('label[for="inq-planner"]');
+      if (plannerLabel) plannerLabel.textContent = type && type !== 'Choose one' ? 'Planner or Coordinator' : 'Planner or Coordinator (weddings only)';
+      if (guests && type === 'Wedding') guests.placeholder = 'e.g. 80';
       const msgLabel = document.querySelector('label[for="inq-message"]');
       if (msgLabel) msgLabel.textContent = isProposal ? 'Tell me about the plan *' : 'Tell me about your day *';
       const date = $('inq-date'), dateLabel = document.querySelector('label[for="inq-date"]');
       if (date && dateLabel) {
         date.type = isProposal ? 'text' : 'date';
         date.placeholder = isProposal ? 'e.g. in town Nov 6 to 9, flexible on which evening' : '';
-        dateLabel.textContent = isProposal ? 'Your date, or your travel window' : 'Date (or target proposal date)';
+        dateLabel.textContent = isProposal ? 'Your date, or your travel window' : (type && type !== 'Choose one' ? 'Date' : 'Date (or target proposal date)');
       }
       const next = $('inq-next');
       if (next) next.value = 'https://www.khrystynaskotte.com/thanks' + (isProposal ? '?type=proposal' : '');
     }
     if (sel) sel.addEventListener('change', shape);
     shape();
+    // Buttons that name a type (data-type) set it as they scroll to the form.
+    document.querySelectorAll('a[href="#inquire"][data-type]').forEach((a) => {
+      a.addEventListener('click', () => {
+        if (!sel) return;
+        for (let i = 0; i < sel.options.length; i++) if (sel.options[i].text === a.dataset.type) { sel.selectedIndex = i; break; }
+        shape();
+      });
+    });
 
     // Phone: any formatting, but a real 10 digit US number or an international one starting with +.
     const phone = $('inq-phone');
