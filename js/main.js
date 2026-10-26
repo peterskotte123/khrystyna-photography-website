@@ -292,11 +292,19 @@
   // The visitor never waits longer than SEND_WAIT: the database copy has the
   // lead by then, and the monitor catches anything Formspree missed.
   const SEND_WAIT = 8000;
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    document.querySelectorAll('form[data-sending]').forEach((f) => {
+      delete f.dataset.sending;
+      const btn = f.querySelector('[type="submit"]');
+      if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Send Inquiry'; }
+    });
+  });
   window.ksSend = function (form) {
     if (form.dataset.sending) return;
     form.dataset.sending = '1';
     const btn = form.querySelector('[type="submit"]');
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    if (btn) { btn.dataset.label = btn.textContent; btn.disabled = true; btn.textContent = 'Sending…'; }
     const next = form.querySelector('[name="_next"]');
     let gone = false;
     const go = () => {
@@ -328,10 +336,12 @@
     if (!form) return;
     const $ = (id) => document.getElementById(id);
     const sel = $('inq-type');
-    const preset = new URLSearchParams(window.location.search).get('type') || ($('inq-preset') || {}).value || '';
-    if (sel && preset) {
-      for (let i = 0; i < sel.options.length; i++) if (sel.options[i].text === preset) { sel.selectedIndex = i; break; }
-    }
+    const pick = (label) => {
+      if (!sel || !label) return false;
+      for (let i = 0; i < sel.options.length; i++) if (sel.options[i].text === label) { sel.selectedIndex = i; return true; }
+      return false;
+    };
+    pick(new URLSearchParams(window.location.search).get('type')) || pick(($('inq-preset') || {}).value);
 
     function shape() {
       const opt = sel && sel.options[sel.selectedIndex];
@@ -355,6 +365,10 @@
       const plannerLabel = document.querySelector('label[for="inq-planner"]');
       if (plannerLabel) plannerLabel.textContent = type && type !== 'Choose one' ? 'Planner or Coordinator' : 'Planner or Coordinator (weddings only)';
       if (guests && type === 'Wedding') guests.placeholder = 'e.g. 80';
+      const intro = document.querySelector('#inquire .section-header + p');
+      if (intro) intro.textContent = isProposal
+        ? 'Share a few details below and you will hear back within 24 hours. Every reply stays discreet: you approve when and how I reach out.'
+        : 'Share a few details below and you\'ll receive a personal reply, and for estate and resort celebrations a tailored proposal, within 24 hours.';
       const msgLabel = document.querySelector('label[for="inq-message"]');
       if (msgLabel) msgLabel.textContent = isProposal ? 'Tell me about the plan *' : 'Tell me about your day *';
       const date = $('inq-date'), dateLabel = document.querySelector('label[for="inq-date"]');
@@ -371,9 +385,7 @@
     // Buttons that name a type (data-type) set it as they scroll to the form.
     document.querySelectorAll('a[href="#inquire"][data-type]').forEach((a) => {
       a.addEventListener('click', () => {
-        if (!sel) return;
-        for (let i = 0; i < sel.options.length; i++) if (sel.options[i].text === a.dataset.type) { sel.selectedIndex = i; break; }
-        shape();
+        if (pick(a.dataset.type)) shape();
       });
     });
 
