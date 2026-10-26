@@ -13,7 +13,7 @@ photographer. Static HTML and CSS, no build step, no framework, no package.json.
 | Styles | 5 files in `css/`, loaded in fixed order |
 | Scripts | One `js/main.js`, vanilla JS in an IIFE |
 | Host | Vercel |
-| Forms | formsubmit.co to `khrystynaskotte@gmail.com`, redirects to `/thanks` |
+| Forms | Formspree `mgaaanqq` (Khrystyna Gmail + Petey Proton), `window.ksSend`, redirects to `/thanks` |
 | Analytics | GA4 `G-JWHEWK95P6` and Microsoft Clarity `vpam3cgxpy` |
 
 `vercel.json` sets `cleanUrls: true` and `trailingSlash: false`. That is why
@@ -88,44 +88,23 @@ wrong page) and `picnic-proposals.html` renamed to `proposals.html`.
 
 ---
 
-## Hidden Picnics Partnership (referred to as "HP")
+## Hidden Picnics is gone from the site (2026-10-26)
 
-Hidden Picnics is a partner business that designs and builds picnic proposal
-setups. They also handle park permits, offered for an added charge. This
-attribution boundary caused three separate correction commits, so it is worth
-being precise about.
+Hidden Picnics was a picnic-setup partner sold through `proposals.html` (a
+styled-scene estimator, a "Picnic Proposal" package card, partnership strip,
+FAQ copy, and a footer credit). On 2026-10-26 Petey had every reference
+removed: the estimator and its script, the picnic card, and all copy. The
+proposals page now sells two things, photography $650 and photo + film
+$2,150, both exact. `elopements.html` lost its "styled picnic packages" line.
 
-### Problem
-
-Hidden Picnics imagery and credit leaked outside the partnership sections, and
-in one case the site implied Khrystyna had photographed setups that were
-actually Hidden Picnics' own images.
-
-### Root Cause
-
-Both businesses appear on the same page, so it is easy to reach for whichever
-image is nearby without tracking who owns it.
-
-### Solution
-
-- **Hidden Picnics imagery no longer appears anywhere on the site.** The
-  "Styled Scene" and "Setups by Hidden Picnics" sections were removed from
-  `proposals.html` on 2026-08-09 at Petey's request, and `img/picnics/` was
-  deleted with them. The picnic *product* is still sold through the
-  estimator, the package cards, and the FAQ; only the showcase imagery is
-  gone. Do not re-add HP imagery without being asked.
-- **Everything on the site is Khrystyna's photography.**
-- **Never claim Khrystyna shot the HP setups.** The gallery label is plainly
-  "Setups by Hidden Picnics" with no photographer attribution.
-- The pricing estimator has a photography-only path that returns exactly $650
-  with no HP tax and no permit flags, and clears HP add-ons when the user
-  switches to no setup.
-
-### Key Learning
-
-Before using any image on the picnic or engagement pages, confirm whose work it
-is. Default to Khrystyna's photography and treat HP imagery as the exception
-confined to those two sections.
+- Do not re-add Hidden Picnics, picnic packages, or any third-party setup
+  product without being asked.
+- `vercel.json` still 301s `/picnic-proposals` to `/proposals`; keep it, the
+  old URL is indexed.
+- Generic mentions of picnics as a thing locals do (the where-to-propose
+  guide) are fine. The brand name is not.
+- Permit copy: a proposal with a photographer needs no permit in San Diego
+  city parks, Sunset Cliffs included. Chairs, an arch, or a styled table do.
 
 ---
 
@@ -147,7 +126,7 @@ logo would vanish against a light background. If you add a page with a light
 top section, do not give it a `.hero` element.
 
 **Inquiry copy to Supabase.** Since 2026-10-09 the contact form posts to
-FormSubmit as before (that is the email) and `contact.html` also sends a JSON
+Formspree (that is the email) and every inquiry form also sends a JSON
 copy of the inquiry, with the stored click ID and first-touch source, to
 `https://wurikcpajrkvmnohungl.supabase.co/functions/v1/site-inquiry` with
 `fetch(..., {keepalive: true})` and a `text/plain` body (no preflight). It
