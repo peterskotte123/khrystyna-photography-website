@@ -441,11 +441,7 @@
         <h2 class="section-title">Tell Me Your Due Date</h2>
       </div>
       <p style="text-align: center; max-width: 640px; margin: 0 auto var(--space-6); color: var(--color-text-muted);">Your due date, who is coming, and a spot if you have one. You get a personal reply within 24 hours, usually much sooner.</p>
-      <form action="https://formsubmit.co/khrystynaskotte@gmail.com" method="POST" style="max-width: 720px; margin: 0 auto;" class="fade-in" id="maternityForm">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_url" value="https://www.khrystynaskotte.com/maternity">
-        <input type="hidden" name="_blacklist" value="seo,backlink,crypto,bitcoin,casino,loan,guest post,web design services,link building,ranking">
+      <form action="https://formspree.io/f/mgaaanqq" method="POST" style="max-width: 720px; margin: 0 auto;" class="fade-in" id="maternityForm">
         <input type="hidden" name="_subject" id="inq-subject" value="Maternity Session - khrystynaskotte.com">
         <input type="hidden" name="_replyto" id="inq-replyto" value="">
         <input type="hidden" name="_next" value="https://www.khrystynaskotte.com/thanks">
@@ -583,7 +579,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=10"></script>
+  <script src="js/main.js?v=11"></script>
   <script>
     (function () {
       var root = document.getElementById('estimator'); if (!root) return;
@@ -632,7 +628,7 @@
     })();
   </script>
   <script>
-    // Same submit path as contact.html and engagement-session.html: FormSubmit gets
+    // Same submit path as contact.html and engagement-session.html: Formspree gets
     // the POST for the email, a JSON copy goes to our database with the traffic
     // source, and thanks.html reads inq_type from sessionStorage to value the lead.
     (function () {
@@ -665,7 +661,8 @@
       fillClickId();
 
       var typedMessage = null;
-      form.addEventListener('submit', function () {
+      form.addEventListener('submit', function (e) {
+        if (window.ksSend) e.preventDefault();
         fillClickId();
         var get = function (n) {
           var el = form.querySelector('[name="' + n + '"]');
@@ -729,6 +726,8 @@
             body: JSON.stringify(payload)
           }).catch(function () {});
         } catch (e) {}
+
+        if (window.ksSend) window.ksSend(form);
       });
     })();
   </script>

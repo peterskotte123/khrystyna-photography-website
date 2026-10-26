@@ -283,6 +283,37 @@
     }, true);
   }
 
+  // Inquiry forms call this from their submit handler once the fields are
+  // prepared. It locks the button, posts the form to Formspree in the
+  // background, and moves to the thanks page as soon as Formspree confirms.
+  // The visitor never waits longer than SEND_WAIT: the database copy has the
+  // lead by then, and the monitor catches anything Formspree missed.
+  const SEND_WAIT = 8000;
+  window.ksSend = function (form) {
+    if (form.dataset.sending) return;
+    form.dataset.sending = '1';
+    const btn = form.querySelector('[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    const next = form.querySelector('[name="_next"]');
+    let gone = false;
+    const go = () => {
+      if (gone) return;
+      gone = true;
+      window.location.href = next && next.value ? next.value : '/thanks';
+    };
+    const body = new FormData(form);
+    body.delete('_honey');
+    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = setTimeout(() => { if (ctrl) ctrl.abort(); go(); }, SEND_WAIT);
+    const done = () => { clearTimeout(timer); go(); };
+    try {
+      fetch(form.action, {
+        method: 'POST', body, headers: { Accept: 'application/json' },
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(done, done);
+    } catch (e) { done(); }
+  };
+
   // Initialize everything
   function initHashLanding() {
     // Ad final URLs land on anchors (#courthouse, #estimator). The browser

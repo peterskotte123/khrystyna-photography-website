@@ -118,7 +118,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=10"></script>
+  <script src="js/main.js?v=11"></script>
   <script>
     (function () {
       // Only count this as a lead if the visitor actually submitted the inquiry form.
@@ -149,7 +149,7 @@
       try { inqType = sessionStorage.getItem('inq_type') || ''; sessionStorage.removeItem('inq_type'); } catch (e) {}
       var leadValue = VALUES[inqType] || 100;
 
-      gtag('event', 'form_submit', { form_destination: 'formsubmit', inquiry: 'contact', inquiry_type: inqType });
+      gtag('event', 'form_submit', { form_destination: 'formspree', inquiry: 'contact', inquiry_type: inqType });
 
       gtag('event', 'generate_lead', { value: leadValue, currency: 'USD', inquiry_type: inqType });
     })();
