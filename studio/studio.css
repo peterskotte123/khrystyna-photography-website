@@ -72,7 +72,11 @@ tr:last-child td { border-bottom: 0; font-weight: 700; }
 
 @media (min-width: 640px) {
   .tiles { grid-template-columns: repeat(4, 1fr); }
-  .filters .row { grid-template-columns: 220px 1fr; }
+  .filters .row { grid-template-columns: 200px 210px 1fr; }
   .edit { grid-template-columns: 1fr 1fr; }
   .edit .wide { grid-column: 1 / -1; }
 }
+
+.meta .tt { background: #e8eef5; color: #2f4a66; font-weight: 700; padding: 0 7px; border-radius: var(--radius-full); }
+.message.last { background: #eef3f8; }
+.tablewrap.second { margin-top: var(--space-4); }

@@ -65,7 +65,7 @@
   function load() {
     return Promise.all([
       sb.from('crm_users').select('user_id').limit(1),
-      sb.from('lead_ledger').select('*').order('inquiry_id', { ascending: false }),
+      sb.from('pipeline').select('*').order('received_pt', { ascending: false }),
       sb.from('offline_bookings').select('*').order('id', { ascending: false })
     ]).then(function (r) {
       if (r[0].error || !r[0].data || !r[0].data.length) { show('denied'); return; }
@@ -73,6 +73,18 @@
       state.leads = r[1].data; state.other = r[2].data;
       show('app'); renderAll();
     });
+  }
+
+  // Dates that already have a booking, from any source, so a clash shows before she quotes.
+  function bookedDates() {
+    var m = {};
+    state.leads.forEach(function (l) { var d = isoDate(l.event_date); if (l.status === 'Booked' && d) (m[d] = m[d] || []).push({ key: l.lead_key, client: l.name }); });
+    state.other.forEach(function (o) { var d = isoDate(o.event_date); if (d) (m[d] = m[d] || []).push({ key: 'other:' + o.id, client: o.client }); });
+    return m;
+  }
+  function clashFor(l, booked) {
+    var d = isoDate(l.event_date); if (!d || l.status === 'Booked' || CLOSED.indexOf(l.status) > -1) return '';
+    return (booked[d] || []).filter(function (b) { return b.key !== l.lead_key; }).map(function (b) { return b.client; }).join(', ');
   }
 
   function renderAll() { renderTiles(); renderChips(); renderCategories(); renderList(); renderOther(); renderByJob(); }
@@ -108,6 +120,7 @@
     sel.value = cur;
   }
   $('fCategory').addEventListener('change', renderList);
+  $('fOrigin').addEventListener('change', renderList);
   $('fSearch').addEventListener('input', renderList);
 
   function eventNote(l) {
@@ -122,20 +135,24 @@
   function option(sel, value, label) { sel.appendChild(el('option', { value: value, text: label })); }
   function field(label, control, cls) { return el('div', { class: 'field' + (cls ? ' ' + cls : '') }, [el('label', { text: label }), control]); }
 
-  function leadCard(l) {
+  function leadCard(l, booked) {
+    var clash = clashFor(l, booked || {});
     var received = String(l.received_pt || '').slice(0, 10), ago = received ? daysBetween(received, today()) : null, ev = eventNote(l);
     var statusClass = !l.status ? 'new' : l.status === 'Booked' ? 'booked' : CLOSED.indexOf(l.status) > -1 ? 'closed' : '';
     var meta = el('div', { class: 'meta' }, [
       el('span', { class: 'cat', text: l.category || 'Other' }),
+      l.origin === 'Thumbtack' ? el('span', { class: 'tt', text: 'Thumbtack' }) : null,
+      clash ? el('span', { class: 'soon', text: 'Already booked that day: ' + clash }) : null,
       ev ? el('span', { class: ev.soon ? 'soon' : '', text: ev.text }) : null,
       ago !== null ? el('span', { text: ago === 0 ? 'Inquired today' : 'Inquired ' + ago + (ago === 1 ? ' day ago' : ' days ago') }) : null,
       l.contact_method ? el('span', { text: 'Prefers ' + String(l.contact_method).toLowerCase() }) : null,
+      l.origin === 'Thumbtack' && l.last_contact_at ? el('span', { text: 'You messaged ' + niceDate(l.last_contact_at) }) : null,
       l.status === 'Booked' && Number(l.amount) ? el('span', { text: money(l.amount) }) : null
     ]);
     var card = el('details', { class: 'card' }, [el('summary', {}, [
       el('div', { class: 'line1' }, [el('span', { class: 'name', text: l.name || 'No name' }), el('span', { class: 'status ' + statusClass, text: l.status || 'New' })]), meta])]);
-    if (state.open[l.inquiry_id]) card.open = true;
-    card.addEventListener('toggle', function () { state.open[l.inquiry_id] = card.open; if (card.open && !card.dataset.built) { card.dataset.built = '1'; card.appendChild(leadBody(l)); } });
+    if (state.open[l.lead_key]) card.open = true;
+    card.addEventListener('toggle', function () { state.open[l.lead_key] = card.open; if (card.open && !card.dataset.built) { card.dataset.built = '1'; card.appendChild(leadBody(l)); } });
     if (card.open) { card.dataset.built = '1'; card.appendChild(leadBody(l)); }
     return card;
   }
@@ -146,8 +163,11 @@
       tel ? el('a', { href: 'tel:' + tel, text: 'Call' }) : null,
       l.email ? el('a', { href: 'mailto:' + encodeURIComponent(l.email).replace('%40', '@'), text: 'Email' }) : null]);
     var facts = el('dl', { class: 'facts' });
-    [['Phone', l.phone], ['Email', l.email], ['Venue', l.venue], ['Guests', l.guest_count], ['Planner', l.planner], ['Coverage', l.coverage], ['They chose', l.visitor_type],
-     ['Came from', l.source], ['Form on', l.form_page], ['Sent the form', l.submissions > 1 ? l.submissions + ' times' : null]].forEach(function (f) {
+    var tt = l.origin === 'Thumbtack';
+    [[tt ? 'Thumbtack phone' : 'Phone', l.phone], ['Email', l.email], [tt ? 'Area' : 'Venue', l.venue], ['Guests', l.guest_count], ['Planner', l.planner], [tt ? 'Schedule' : 'Coverage', l.coverage],
+     [tt ? 'Event type' : 'They chose', l.visitor_type], ['Came from', l.source], ['Form on', l.form_page], ['Sent the form', l.submissions > 1 ? l.submissions + ' times' : null],
+     ['Thumbtack estimate', tt && l.thumbtack_estimate !== null ? money(l.thumbtack_estimate) : null], ['Lead cost', tt && l.lead_cost !== null ? '$' + Number(l.lead_cost).toFixed(2) : null],
+     ['Messages', tt && l.messages ? l.messages + ', last from ' + (l.last_message_from === 'Business' ? 'you' : 'the customer') + ' on ' + niceDate(l.last_message_on) : null]].forEach(function (f) {
       if (f[1] === null || f[1] === undefined || f[1] === '') return;
       facts.appendChild(el('dt', { text: f[0] })); facts.appendChild(el('dd', { text: String(f[1]) }));
     });
@@ -165,30 +185,33 @@
       var isBooked = status.value === 'Booked';
       if (isBooked && !(Number(price.value) > 0)) { saved.textContent = 'Add the price for a booked job.'; saved.className = 'saved err'; price.focus(); return; }
       if (isBooked && !job.value) { saved.textContent = 'Pick the job booked.'; saved.className = 'saved err'; job.focus(); return; }
-      var row = { inquiry_id: l.inquiry_id, status: status.value || null, booked: isBooked, amount: isBooked ? Number(price.value) : 0,
+      var tt = l.origin === 'Thumbtack', row = { status: status.value || null, booked: isBooked, amount: isBooked ? Number(price.value) : 0,
         booked_category: job.value || null, note: note.value.trim() || null, last_contact_at: contact.value || null, updated_at: new Date().toISOString() };
       save.disabled = true; saved.textContent = 'Saving...'; saved.className = 'saved';
-      sb.from('lead_outcomes').upsert(row, { onConflict: 'inquiry_id' }).then(function (r) {
+      if (tt) row.negotiation_id = l.negotiation_id; else row.inquiry_id = l.inquiry_id;
+      sb.from(tt ? 'thumbtack_outcomes' : 'lead_outcomes').upsert(row, { onConflict: tt ? 'negotiation_id' : 'inquiry_id' }).then(function (r) {
         save.disabled = false;
         if (r.error) { saved.textContent = 'Not saved. Try again.'; saved.className = 'saved err'; return; }
         l.status = row.status; l.booked = row.booked; l.amount = row.amount; l.booked_category = row.booked_category; l.outcome_note = row.note; l.last_contact_at = row.last_contact_at;
         renderTiles(); renderChips(); renderList(); renderByJob();
       });
     });
-    return el('div', { class: 'body' }, [actions, facts, l.message ? el('p', { class: 'message', text: l.message }) : null, form]);
+    return el('div', { class: 'body' }, [actions, facts, l.message ? el('p', { class: 'message', text: l.message }) : null,
+      tt && l.last_message ? el('p', { class: 'message last', text: 'Latest message, from ' + (l.last_message_from === 'Business' ? 'you' : 'the customer') + ':\n' + l.last_message }) : null, form]);
   }
 
   function renderList() {
-    var f = FILTERS.filter(function (x) { return x.id === state.filter; })[0], cat = $('fCategory').value, q = $('fSearch').value.trim().toLowerCase();
+    var f = FILTERS.filter(function (x) { return x.id === state.filter; })[0], cat = $('fCategory').value, org = $('fOrigin').value, q = $('fSearch').value.trim().toLowerCase(), booked = bookedDates();
     var rows = state.leads.filter(function (l) {
       if (!f.test(l)) return false;
       if (cat && (l.category || 'Other') !== cat) return false;
+      if (org && l.origin !== org) return false;
       if (q && [l.name, l.phone, l.email, l.venue, l.outcome_note].join(' ').toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
     var box = $('list'); box.textContent = '';
     $('count').textContent = rows.length + (rows.length === 1 ? ' lead' : ' leads');
-    rows.forEach(function (l) { box.appendChild(leadCard(l)); });
+    rows.forEach(function (l) { box.appendChild(leadCard(l, booked)); });
     if (!rows.length) box.appendChild(el('p', { class: 'muted', text: 'Nothing here.' }));
   }
 
@@ -248,15 +271,25 @@
     });
     state.other.forEach(function (o) { var b = row(o.category || 'Job type not set'); b.booked++; b.rev += Number(o.amount || 0); });
     order.sort(function (a, b) { return rows[b].rev - rows[a].rev || rows[b].leads - rows[a].leads; });
-    var t = el('table', {}, [el('thead', {}, [el('tr', {}, ['Job type', 'Form leads', 'Booked', 'Revenue'].map(function (h) { return el('th', { text: h }); }))])]);
+    var t = el('table', {}, [el('thead', {}, [el('tr', {}, ['Job type', 'Leads', 'Booked', 'Revenue'].map(function (h) { return el('th', { text: h }); }))])]);
     var body = el('tbody'), tot = { leads: 0, booked: 0, rev: 0 };
     order.forEach(function (k) { var r = rows[k]; tot.leads += r.leads; tot.booked += r.booked; tot.rev += r.rev;
       body.appendChild(el('tr', {}, [el('td', { text: k }), el('td', { text: String(r.leads) }), el('td', { text: String(r.booked) }), el('td', { text: money(r.rev) })])); });
     body.appendChild(el('tr', {}, [el('td', { text: 'Total' }), el('td', { text: String(tot.leads) }), el('td', { text: String(tot.booked) }), el('td', { text: money(tot.rev) })]));
     t.appendChild(body);
+    var src = {}, so = [];
+    function srow(k) { if (!src[k]) { src[k] = { leads: 0, booked: 0, rev: 0 }; so.push(k); } return src[k]; }
+    state.leads.forEach(function (l) { var r = srow(l.origin || 'Website'); r.leads++; if (l.status === 'Booked') { r.booked++; r.rev += Number(l.amount || 0); } });
+    state.other.forEach(function (o) { var r = srow('No form'); r.booked++; r.rev += Number(o.amount || 0); });
+    var t2 = el('table', {}, [el('thead', {}, [el('tr', {}, ['Came through', 'Leads', 'Booked', 'Revenue'].map(function (h) { return el('th', { text: h }); }))])]), b2 = el('tbody'), st = { leads: 0, booked: 0, rev: 0 };
+    so.forEach(function (k) { var r = src[k]; st.leads += r.leads; st.booked += r.booked; st.rev += r.rev;
+      b2.appendChild(el('tr', {}, [el('td', { text: k }), el('td', { text: String(r.leads) }), el('td', { text: String(r.booked) }), el('td', { text: money(r.rev) })])); });
+    b2.appendChild(el('tr', {}, [el('td', { text: 'Total' }), el('td', { text: String(st.leads) }), el('td', { text: String(st.booked) }), el('td', { text: money(st.rev) })]));
+    t2.appendChild(b2);
     var box = $('byJob'); box.textContent = '';
     box.appendChild(el('div', { class: 'tablewrap' }, [t]));
-    box.appendChild(el('p', { class: 'muted small', text: 'Form leads counts what people asked about. Booked and revenue use the job actually booked, and include bookings with no form.' }));
+    box.appendChild(el('div', { class: 'tablewrap second' }, [t2]));
+    box.appendChild(el('p', { class: 'muted small', text: 'Leads counts what people asked about. Booked and revenue use the job actually booked, and include bookings with no form.' }));
   }
 
   // ---------- tabs ----------
@@ -276,6 +309,16 @@
     if (window.location.hash || window.location.search) history.replaceState(null, '', window.location.pathname);
     load();
   }
+  // Changes made elsewhere (the Claude connector, another device) show up without a manual reload.
+  // Skipped while a card is open so nothing she is typing gets replaced.
+  function refresh() {
+    if (!started || document.visibilityState !== 'visible' || $('app').hidden) return;
+    if (document.querySelector('#list details[open], #otherList details[open], #otherList [data-fresh]')) return;
+    load();
+  }
+  document.addEventListener('visibilitychange', refresh);
+  setInterval(refresh, 30000);
+
   sb.auth.onAuthStateChange(function (event, session) { if (event === 'SIGNED_OUT') { started = false; show('login'); } else if (session) start(session); });
   sb.auth.getSession().then(function (r) { start(r.data.session); });
 })();
