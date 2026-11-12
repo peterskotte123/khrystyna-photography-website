@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Studio | Khrystyna Skotte</title>
+  <link rel="icon" type="image/png" href="/img/horizontal%20logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/studio/studio.css?v=1">
+</head>
+<body>
+  <main id="login" class="login" hidden>
+    <h1>Studio</h1>
+    <p class="muted">Leads and bookings for Khrystyna Skotte Photography.</p>
+    <form id="loginForm">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" required placeholder="you@example.com">
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password">
+      <button type="submit" class="btn">Sign in</button>
+      <button type="button" id="loginLink" class="btn ghost">Email me a sign-in link instead</button>
+    </form>
+    <p id="loginMsg" class="msg" role="status"></p>
+  </main>
+
+  <div id="app" hidden>
+    <header class="top">
+      <h1>Studio</h1>
+      <div class="who"><span id="whoEmail"></span><button id="signOut" class="link">Sign out</button></div>
+    </header>
+    <section id="tiles" class="tiles" aria-label="Summary"></section>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="leads" aria-selected="true">Leads</button>
+      <button role="tab" data-tab="other" aria-selected="false">Other bookings</button>
+      <button role="tab" data-tab="byjob" aria-selected="false">By job type</button>
+    </nav>
+
+    <section id="tab-leads">
+      <div class="filters">
+        <div id="chips" class="chips" role="group" aria-label="Filter by status"></div>
+        <div class="row">
+          <select id="fCategory" aria-label="Job type"><option value="">All job types</option></select>
+          <input id="fSearch" type="search" placeholder="Search name, phone, venue" aria-label="Search">
+        </div>
+      </div>
+      <p id="count" class="muted small"></p>
+      <div id="list"></div>
+    </section>
+
+    <section id="tab-other" hidden>
+      <p class="muted small">Bookings that never used a website form: referrals, Instagram messages, texts, repeat clients.</p>
+      <button id="addOther" class="btn">Add a booking</button>
+      <div id="otherList"></div>
+    </section>
+
+    <section id="tab-byjob" hidden><div id="byJob"></div></section>
+    <p id="appMsg" class="msg" role="status"></p>
+  </div>
+
+  <main id="denied" class="login" hidden>
+    <h1>Studio</h1>
+    <p>This account does not have access. Ask Petey to add it.</p>
+    <button id="signOut2" class="btn">Sign out</button>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script>window.STUDIO = { url: "https://wurikcpajrkvmnohungl.supabase.co", key: "sb_publishable_wq8pkmfsUhTHUAACyU9hdw_qmOX329n" };</script>
+  <script src="/studio/studio.js?v=1"></script>
+</body>
+</html>
