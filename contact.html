@@ -212,6 +212,15 @@
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">Your number is for texting the plan. I never call unless you ask.</p>
           </div>
           <div class="form-group">
+            <label class="form-label" for="inq-contact">How should I reach you? *</label>
+            <select class="form-input" id="inq-contact" name="contact_method" required>
+              <option value="" disabled selected>Choose one</option>
+              <option>Text</option>
+              <option>Phone call</option>
+              <option>Email</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-label" for="inq-venue">Venue or Location</label>
             <input class="form-input" type="text" id="inq-venue" name="venue" placeholder="e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs">
           </div>
@@ -267,7 +276,7 @@
         </div>
         <div style="margin-bottom: var(--space-6); padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-accent-light);">
           <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">Do you require a deposit?</h3>
-          <p style="color: var(--color-text-muted);">Yes. A 50% retainer is due upon signing to reserve your date, with the remaining balance due 14 days before your wedding or session. For photography-only proposals and engagements that is $325 to lock your date ($1,075 for photo + film), and for portrait sessions it is $250.</p>
+          <p style="color: var(--color-text-muted);">Yes. A 50% retainer is due upon signing to reserve your date, with the remaining balance due 14 days before your wedding or session. For photography-only proposals and engagements that is $325 to lock your date ($825 for photo + film), and for portrait sessions it is $250.</p>
         </div>
         <div style="margin-bottom: var(--space-6); padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-accent-light);">
           <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">I'm planning a surprise proposal. How does that work?</h3>
@@ -339,7 +348,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=16"></script>
   <script>
     (function () {
       var form = document.querySelector('form[action*="formspree.io"]');
@@ -396,7 +405,9 @@
         // origin rides along inside the message.
         var msgEl = document.getElementById('inq-message');
         var trav = get('traveling_from');
-        if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') !== 0) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+        if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') === -1) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+        var pref = get('contact_method');
+        if (msgEl && pref) msgEl.value = 'Preferred contact: ' + pref + '.\n' + msgEl.value.replace(/^Preferred contact: [^\n]*\n/, '');
 
         var g = document.getElementById('inq-gclid');
         if (g && !g.value) g.disabled = true;

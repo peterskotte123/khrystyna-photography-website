@@ -420,8 +420,9 @@
         const wrap = el && (el.closest('.form-group') || el.parentElement);
         if (wrap && wrap.style.display === 'none') el.disabled = true;
       });
-      const msgEl = $('inq-message'), trav = get('traveling_from');
-      if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') !== 0) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+      const msgEl = $('inq-message'), trav = get('traveling_from'), pref = get('contact_method');
+      if (msgEl && trav && msgEl.value.indexOf('Traveling from: ') === -1) msgEl.value = 'Traveling from: ' + trav + '.\n\n' + msgEl.value;
+      if (msgEl && pref) msgEl.value = 'Preferred contact: ' + pref + '.\n' + msgEl.value.replace(/^Preferred contact: [^\n]*\n/, '');
 
       let stored = null;
       try { stored = JSON.parse(localStorage.getItem('ks_gclid') || 'null'); } catch (err) {}

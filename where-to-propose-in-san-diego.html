@@ -399,6 +399,15 @@
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">Your number is for texting the plan. I never call unless you ask.</p>
           </div>
           <div class="form-group">
+            <label class="form-label" for="inq-contact">How should I reach you? *</label>
+            <select class="form-input" id="inq-contact" name="contact_method" required>
+              <option value="" disabled selected>Choose one</option>
+              <option>Text</option>
+              <option>Phone call</option>
+              <option>Email</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-label" for="inq-venue">Venue or Location</label>
             <input class="form-input" type="text" id="inq-venue" name="venue" placeholder="e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs">
           </div>
@@ -483,6 +492,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=16"></script>
 </body>
 </html>

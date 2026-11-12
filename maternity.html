@@ -460,6 +460,15 @@
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">For texting the plan. I never call unless you ask.</p>
           </div>
           <div class="form-group">
+            <label class="form-label" for="inq-contact">How should I reach you? *</label>
+            <select class="form-input" id="inq-contact" name="contact_method" required>
+              <option value="" disabled selected>Choose one</option>
+              <option>Text</option>
+              <option>Phone call</option>
+              <option>Email</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-label" for="inq-email">Email *</label>
             <input class="form-input" type="email" id="inq-email" name="email" required autocomplete="email">
           </div>
@@ -579,7 +588,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=16"></script>
   <script>
     (function () {
       var root = document.getElementById('estimator'); if (!root) return;
@@ -690,6 +699,7 @@
           if (get('who')) extra.push('Who: ' + get('who'));
           if (get('timeframe')) extra.push('Timeframe: ' + get('timeframe'));
           if (get('coverage')) extra.push('Session: ' + get('coverage'));
+          if (get('contact_method')) extra.unshift('Preferred contact: ' + get('contact_method'));
           msg.value = extra.length ? extra.join('. ') + '.' + (typedMessage ? '\n\n' + typedMessage : '') : typedMessage;
         }
 

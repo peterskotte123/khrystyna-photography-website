@@ -201,7 +201,7 @@
         </div>
         <div class="service-card" style="display: flex; flex-direction: column;">
           <h3 class="service-title" style="font-size: var(--text-xl);">Elopements</h3>
-          <p style="font-family: var(--font-heading); font-size: var(--text-2xl); color: var(--color-accent); margin: var(--space-2) 0 var(--space-3);">From $650</p>
+          <p style="font-family: var(--font-heading); font-size: var(--text-2xl); color: var(--color-accent); margin: var(--space-2) 0 var(--space-3);">From $750</p>
           <p class="service-text">Just the two of you at Sunset Cliffs, Cardiff, or Windansea. Up to 15 guests welcome at any coverage length, with clear hourly pricing.</p>
           <a href="elopements.html" class="btn btn-outline-dark" style="margin-top: auto; align-self: center;">See Elopements</a>
         </div>
@@ -320,7 +320,7 @@
           <p class="about-text">
             Whether it's a spontaneous escape or a carefully planned adventure, you'll come away with a timeless gallery that feels exactly like the two of you.
           </p>
-          <p class="about-text">Elopements from $650 &middot; <a href="elopements.html#pricing" style="color: var(--color-accent);">See elopement pricing</a></p>
+          <p class="about-text">Elopements from $750 &middot; <a href="elopements.html#pricing" style="color: var(--color-accent);">See elopement pricing</a></p>
           <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center;">
             <a href="elopements.html" class="btn btn-primary">Plan Your Elopement</a>
             <a href="#inquire" data-type="Elopement" class="btn btn-outline-dark">Check Your Date</a>
@@ -396,6 +396,15 @@
             <label class="form-label" for="inq-phone">Phone *</label>
             <input class="form-input" type="tel" id="inq-phone" name="phone" autocomplete="tel" required maxlength="32" placeholder="(619) 555-0123" title="10-digit US number, or international starting with +">
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">Your number is for texting the plan. I never call unless you ask.</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="inq-contact">How should I reach you? *</label>
+            <select class="form-input" id="inq-contact" name="contact_method" required>
+              <option value="" disabled selected>Choose one</option>
+              <option>Text</option>
+              <option>Phone call</option>
+              <option>Email</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-label" for="inq-venue">Venue or Location</label>
@@ -490,6 +499,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=16"></script>
 </body>
 </html>

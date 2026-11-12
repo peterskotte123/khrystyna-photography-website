@@ -278,7 +278,7 @@
           <ul class="price-list">
             <li>1 hour of coverage</li>
             <li>2–3 week turnaround, rush delivery and same-week sneak peeks available for an additional charge</li>
-            <li><strong>Photo + film together: $2,150</strong> ($650 photo + $500 film + $1,000 second shooter, so both are captured at once). A proposal happens once, with no second take, so a second shooter films while Khrystyna shoots.</li>
+            <li><strong>Photo + film together: $1,650</strong> for one hour of each, captured at once. A proposal happens once, with no second take, so a second shooter films while Khrystyna shoots.</li>
             <li>100+ color-edited photos</li>
             <li>Light, natural skin retouching on every photo</li>
             <li>Planning help before and throughout the shoot</li>
@@ -288,7 +288,7 @@
         </div>
         <div class="service-card price-card">
           <h3 class="service-title">Photo &middot; Elopement</h3>
-          <p class="price-tag" style="font-size: 1.45rem;"><span style="white-space: nowrap;">1 hr &middot; $650</span> / <span style="white-space: nowrap;">2 hrs &middot; $900</span> / <span style="white-space: nowrap;">3 hrs &middot; $1,200</span></p>
+          <p class="price-tag" style="font-size: 1.45rem;"><span style="white-space: nowrap;">1 hr &middot; $750</span> / <span style="white-space: nowrap;">2 hrs &middot; $1,100</span> / <span style="white-space: nowrap;">3 hrs &middot; $1,450</span></p>
           <ul class="price-list">
             <li>Pick 1, 2, or 3 hours of coverage</li>
             <li>100+ color-edited photos</li>
@@ -296,7 +296,7 @@
             <li>Planning support before and on the day</li>
             <li>Private online gallery</li>
             <li>Up to 15 guests welcome at any coverage length</li>
-            <li><strong>Add a film: photo + video together from $1,350</strong> (1 hour of each)</li>
+            <li><strong>Add a film: photo + video together from $1,650</strong> (1 hour of each)</li>
           </ul>
           <a href="elopements.html" class="btn btn-outline-dark" style="margin-top: var(--space-4); align-self: center; padding: var(--space-2) var(--space-5); font-size: var(--text-xs);">See elopement details →</a>
         </div>
@@ -445,7 +445,7 @@
         <div class="service-card price-card">
           <h3 class="service-title">Film &middot; Proposal &amp; Engagement</h3>
           <p class="price-tag">$500</p>
-          <p class="price-basis">Want photos of the moment too? A second shooter joins so both are captured at once: photo + film together, $2,150. Rush delivery and same-week sneak peeks available for an additional charge.</p>
+          <p class="price-basis">Want photos of the moment too? A second shooter joins so both are captured at once: photo + film together, $1,650. Rush delivery and same-week sneak peeks available for an additional charge.</p>
           <ul class="price-list">
             <li>1 hour of coverage</li>
             <li>Cinematic highlight video (around 1 minute)</li>
@@ -456,14 +456,14 @@
         </div>
         <div class="service-card price-card">
           <h3 class="service-title">Film &middot; Elopement</h3>
-          <p class="price-tag" style="font-size: 1.45rem;"><span style="white-space: nowrap;">1 hr &middot; $700</span> / <span style="white-space: nowrap;">2 hrs &middot; $1,000</span> / <span style="white-space: nowrap;">3 hrs &middot; $1,300</span></p>
+          <p class="price-tag" style="font-size: 1.45rem;"><span style="white-space: nowrap;">1 hr &middot; $800</span> / <span style="white-space: nowrap;">2 hrs &middot; $1,150</span> / <span style="white-space: nowrap;">3 hrs &middot; $1,500</span></p>
           <ul class="price-list">
             <li>Pick 1, 2, or 3 hours of coverage</li>
             <li>Cinematic highlight video (2–3 minutes) with your vows and audio</li>
             <li>Vertical clips for sharing</li>
             <li>Digital delivery through your private gallery</li>
             <li>Up to 15 guests welcome at any coverage length</li>
-            <li><strong>Bundle with photography: photo + video together from $1,350</strong></li>
+            <li><strong>Bundle with photography: photo + video together from $1,650</strong></li>
             <li>2–3 week turnaround</li>
           </ul>
           <a href="elopements.html" class="btn btn-outline-dark" style="margin-top: var(--space-4); align-self: center; padding: var(--space-2) var(--space-5); font-size: var(--text-xs);">See elopement details →</a>
@@ -597,6 +597,15 @@
             <p style="font-size: .78rem; color: var(--color-text-muted); margin: 4px 0 0;">Your number is for texting the plan. I never call unless you ask.</p>
           </div>
           <div class="form-group">
+            <label class="form-label" for="inq-contact">How should I reach you? *</label>
+            <select class="form-input" id="inq-contact" name="contact_method" required>
+              <option value="" disabled selected>Choose one</option>
+              <option>Text</option>
+              <option>Phone call</option>
+              <option>Email</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label class="form-label" for="inq-venue">Venue or Location</label>
             <input class="form-input" type="text" id="inq-venue" name="venue" placeholder="e.g. Rancho Santa Fe estate, Hotel del Coronado, Sunset Cliffs">
           </div>
@@ -698,8 +707,8 @@
     // Real pricing tables
     var WED_PHOTO = { 4: 2200, 6: 3000, 8: 3800 };
     var WED_FILM  = { 4: 1300, 6: 1800, 8: 2300 };
-    var ELO_PHOTO = { 1: 650, 2: 900, 3: 1200 };
-    var ELO_FILM  = { 1: 700, 2: 1000, 3: 1300 };
+    var ELO_PHOTO = { 1: 750, 2: 1100, 3: 1450 };
+    var ELO_FILM  = { 1: 800, 2: 1150, 3: 1500 };
     var GUEST_ADD = 1000;      // over 60, once per booking, includes 2nd shooter
     var SIGNATURE = 5000;      // photo + film, full day, no guest add
 
@@ -844,7 +853,7 @@
         if (!s.media) return placeholder();
         if (s.media === 'photo') return finalize({ label: 'Proposal / Engagement · Photo', low: 650, high: 650, incl: ['1 hour of coverage', '100+ color-edited photos', 'Light retouching on every photo', 'Private online gallery'] });
         if (s.media === 'video') return finalize({ label: 'Proposal / Engagement · Film', low: 500, high: 500, incl: ['1 hour of coverage', 'Cinematic highlight video (~1 min)', 'Vertical clips for sharing', 'Private online gallery'] });
-        return finalize({ label: 'Proposal / Engagement · Photo + Film', low: 2150, high: 2150, sub: 'A second shooter joins so both are captured at once.', incl: ['Photo and film captured together', '1 hour of coverage', '100+ photos + highlight video', 'Private online gallery'] });
+        return finalize({ label: 'Proposal / Engagement · Photo + Film', low: 1650, high: 1650, sub: 'A second shooter joins so both are captured at once.', incl: ['Photo and film captured together', '1 hour of coverage', '100+ photos + highlight video', 'Private online gallery'] });
       }
 
       // Portraits (couple / family / maternity, photography only)
@@ -865,7 +874,7 @@
         var h = s.hours, hrs = h + ' hour' + (h > 1 ? 's' : '') + ' of coverage';
         if (s.media === 'photo') return finalize({ label: 'Elopement · Photo', low: ELO_PHOTO[h], high: ELO_PHOTO[h], incl: [hrs, '100+ color-edited photos', 'Up to 15 guests welcome', 'Private online gallery'], flags: [venueLine()] });
         if (s.media === 'video') return finalize({ label: 'Elopement · Film', low: ELO_FILM[h], high: ELO_FILM[h], incl: [hrs, 'Cinematic highlight video', 'Vertical clips for sharing', 'Up to 15 guests welcome'], flags: [venueLine()] });
-        return finalize({ label: 'Elopement · Photo + Film', low: 1350, high: 1350, prefix: 'From ', sub: 'Photo and video together, from $1,350 for one hour of each. Longer coverage is quoted with your date.', incl: ['Photo and film captured together', '100+ photos + highlight video', 'Up to 15 guests welcome', 'Private online gallery'], flags: [venueLine()] });
+        return finalize({ label: 'Elopement · Photo + Film', low: 1650, high: 1650, prefix: 'From ', sub: 'Photo and video together, from $1,650 for one hour of each. Longer coverage is quoted with your date.', incl: ['Photo and film captured together', '100+ photos + highlight video', 'Up to 15 guests welcome', 'Private online gallery'], flags: [venueLine()] });
       }
 
       // Wedding
@@ -956,6 +965,6 @@
     syncVisibility();
   })();
   </script>
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=16"></script>
 </body>
 </html>
