@@ -1,6 +1,8 @@
 (function () {
   'use strict';
-  var sb = window.supabase.createClient(window.STUDIO.url, window.STUDIO.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+  // Public project address and publishable key. Access is decided by row rules in the database, not by this key.
+  var STUDIO = { url: 'https://wurikcpajrkvmnohungl.supabase.co', key: 'sb_publishable_wq8pkmfsUhTHUAACyU9hdw_qmOX329n' };
+  var sb = window.supabase.createClient(STUDIO.url, STUDIO.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
   var $ = function (id) { return document.getElementById(id); };
   var STATUSES = ['Still talking', 'No reply', 'Booked', 'Not booked', 'I was unavailable', 'Not a real lead'];
   var JOBS = ['Courthouse Wedding', 'Elopement', 'Wedding', 'Proposal', 'Engagement', 'Maternity', 'Portrait or Family', 'Event', 'Other'];

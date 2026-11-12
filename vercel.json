@@ -2,8 +2,81 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/picnic-proposals", "destination": "/proposals", "permanent": true },
-    { "source": "/engagements", "destination": "/engagement-session", "permanent": true },
-    { "source": "/estate-weddings", "destination": "/weddings", "permanent": true }
+    {
+      "source": "/picnic-proposals",
+      "destination": "/proposals",
+      "permanent": true
+    },
+    {
+      "source": "/engagements",
+      "destination": "/engagement-session",
+      "permanent": true
+    },
+    {
+      "source": "/estate-weddings",
+      "destination": "/weddings",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    },
+    {
+      "source": "/studio(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://wurikcpajrkvmnohungl.supabase.co wss://wurikcpajrkvmnohungl.supabase.co; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/pay-(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    }
   ]
 }

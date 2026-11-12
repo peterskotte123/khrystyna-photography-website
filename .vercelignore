@@ -1,0 +1,7 @@
+# Internal files that the website does not need to serve.
+CLAUDE.md
+sync_partials.py
+partials
+ads-data
+__pycache__
+*.py
