@@ -32,6 +32,7 @@ ACTIVE = {
     "elopementspecial.html": "elopements",
     "courthouse-wedding.html": "courthouse",
     "san-diego-courthouse-wedding-guide.html": "courthouse",
+    "laguna-hills-courthouse-wedding.html": "courthouse",
     "where-to-propose-in-san-diego.html": "proposals",
     "best-places-to-elope-in-san-diego.html": "elopements",
     "san-diego-wedding-photography-cost.html": "pricing",
