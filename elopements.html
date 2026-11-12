@@ -473,7 +473,7 @@
       // Engagement / Proposal
       if (s.occasion === 'engagement') {
         if (!s.media) return placeholder();
-        if (s.media === 'photo') return finalize({ label: 'Proposal / Engagement · Photo', low: 650, high: 650, incl: ['1 hour of coverage', '100+ color-edited photos', 'Light retouching on every photo', 'Private online gallery'] });
+        if (s.media === 'photo') return finalize({ label: 'Proposal / Engagement · Photo', low: 750, high: 750, incl: ['1 hour of coverage', '100+ color-edited photos', 'Light retouching on every photo', 'Private online gallery'] });
         if (s.media === 'video') return finalize({ label: 'Proposal / Engagement · Film', low: 500, high: 500, incl: ['1 hour of coverage', 'Cinematic highlight video (~1 min)', 'Vertical clips for sharing', 'Private online gallery'] });
         return finalize({ label: 'Proposal / Engagement · Photo + Film', low: 1650, high: 1650, sub: 'A second shooter joins so both are captured at once.', incl: ['Photo and film captured together', '1 hour of coverage', '100+ photos + highlight video', 'Private online gallery'] });
       }
