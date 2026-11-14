@@ -8,7 +8,9 @@
   var JOBS = ['Courthouse Wedding', 'Elopement', 'Wedding', 'Proposal', 'Engagement', 'Maternity', 'Portrait or Family', 'Event', 'Other'];
   var SOURCES = ['Referral', 'Instagram', 'Thumbtack', 'Google search', 'Text or phone', 'Repeat client', 'Wedding vendor', 'Other'];
   var CLOSED = ['Not booked', 'I was unavailable', 'Not a real lead'];
+  function isDue(l) { return !!l.follow_up_on && l.follow_up_on <= today(); }
   var FILTERS = [
+    { id: 'due', label: 'Connect today', test: isDue },
     { id: 'action', label: 'Needs action', test: function (l) { return !l.status || l.status === 'Still talking'; } },
     { id: 'noreply', label: 'No reply', test: function (l) { return l.status === 'No reply'; } },
     { id: 'booked', label: 'Booked', test: function (l) { return l.status === 'Booked'; } },
@@ -73,6 +75,9 @@
       if (r[0].error || !r[0].data || !r[0].data.length) { show('denied'); return; }
       if (r[1].error || r[2].error) { show('app'); say('appMsg', 'Could not load the leads. Check the connection and reload.', true); return; }
       state.leads = r[1].data; state.other = r[2].data;
+      // The reminder: the first load of a visit opens on the people she set a connect date for, if any are due.
+      if (!state.loaded && state.leads.some(isDue)) state.filter = 'due';
+      state.loaded = true;
       show('app'); renderAll();
     });
   }
@@ -146,6 +151,7 @@
       l.origin && l.origin !== 'Website' ? el('span', { class: 'tt', text: l.origin }) : null,
       clash ? el('span', { class: 'soon', text: 'Already booked that day: ' + clash }) : null,
       ev ? el('span', { class: ev.soon ? 'soon' : '', text: ev.text }) : null,
+      l.follow_up_on ? el('span', { class: isDue(l) ? 'soon' : '', text: l.follow_up_on === today() ? 'Connect today' : (isDue(l) ? 'Connect was due ' : 'Connect on ') + niceDate(l.follow_up_on) }) : null,
       ago !== null ? el('span', { text: ago === 0 ? 'Inquired today' : 'Inquired ' + ago + (ago === 1 ? ' day ago' : ' days ago') }) : null,
       l.contact_method ? el('span', { text: 'Prefers ' + String(l.contact_method).toLowerCase() }) : null,
       l.origin === 'Thumbtack' && l.last_contact_at ? el('span', { text: 'You messaged ' + niceDate(l.last_contact_at) }) : null,
@@ -178,17 +184,19 @@
     var price = el('input', { type: 'number', min: '0', step: '1', inputmode: 'numeric', placeholder: 'e.g. 900' }); if (Number(l.amount)) price.value = Math.round(Number(l.amount));
     var contact = el('input', { type: 'date' }); contact.value = l.last_contact_at || '';
     var todayBtn = el('button', { type: 'button', class: 'btn ghost', text: 'Today' }); todayBtn.addEventListener('click', function () { contact.value = today(); });
+    var follow = el('input', { type: 'date' }); follow.value = l.follow_up_on || '';
+    var clearBtn = el('button', { type: 'button', class: 'btn ghost', text: 'Clear' }); clearBtn.addEventListener('click', function () { follow.value = ''; });
     var note = el('textarea', { placeholder: 'What happened, what is next' }); note.value = l.outcome_note || '';
     var save = el('button', { type: 'submit', class: 'btn', text: 'Save' }), saved = el('span', { class: 'saved', role: 'status' });
     var form = el('form', { class: 'edit' }, [field('Status', status), field('Job booked', job), field('Price ($)', price),
-      field('Last contacted', el('div', { class: 'with-btn' }, [contact, todayBtn])), field('Notes', note, 'wide'), el('div', { class: 'save wide' }, [save, saved])]);
+      field('Last contacted', el('div', { class: 'with-btn' }, [contact, todayBtn])), field('Need to connect on', el('div', { class: 'with-btn' }, [follow, clearBtn])), field('Notes', note, 'wide'), el('div', { class: 'save wide' }, [save, saved])]);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var isBooked = status.value === 'Booked';
       if (isBooked && !(Number(price.value) > 0)) { saved.textContent = 'Add the price for a booked job.'; saved.className = 'saved err'; price.focus(); return; }
       if (isBooked && !job.value) { saved.textContent = 'Pick the job booked.'; saved.className = 'saved err'; job.focus(); return; }
       var tt = l.origin === 'Thumbtack', row = { status: status.value || null, booked: isBooked, amount: isBooked ? Number(price.value) : 0,
-        booked_category: job.value || null, note: note.value.trim() || null, last_contact_at: contact.value || null, updated_at: new Date().toISOString() };
+        booked_category: job.value || null, note: note.value.trim() || null, last_contact_at: contact.value || null, follow_up_on: follow.value || null, updated_at: new Date().toISOString() };
       save.disabled = true; saved.textContent = 'Saving...'; saved.className = 'saved';
       var hand = String(l.lead_key).indexOf('m:') === 0, write;
       if (hand) write = sb.from('manual_leads').update(row).eq('id', Number(String(l.lead_key).slice(2))).select('id');
@@ -198,7 +206,7 @@
         if (hand && !r.error && !(r.data && r.data.length)) r = { error: true };
         save.disabled = false;
         if (r.error) { saved.textContent = 'Not saved. Try again.'; saved.className = 'saved err'; return; }
-        l.status = row.status; l.booked = row.booked; l.amount = row.amount; l.booked_category = row.booked_category; l.outcome_note = row.note; l.last_contact_at = row.last_contact_at;
+        l.status = row.status; l.booked = row.booked; l.amount = row.amount; l.booked_category = row.booked_category; l.outcome_note = row.note; l.last_contact_at = row.last_contact_at; l.follow_up_on = row.follow_up_on;
         renderTiles(); renderChips(); renderList(); renderByJob();
       });
     });
@@ -215,6 +223,7 @@
       if (q && [l.name, l.phone, l.email, l.venue, l.handle, l.outcome_note].join(' ').toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
+    if (state.filter === 'due') rows.sort(function (a, b) { return a.follow_up_on < b.follow_up_on ? -1 : a.follow_up_on > b.follow_up_on ? 1 : 0; });
     var box = $('list'); box.textContent = '';
     $('count').textContent = rows.length + (rows.length === 1 ? ' lead' : ' leads');
     rows.forEach(function (l) { box.appendChild(leadCard(l, booked)); });
