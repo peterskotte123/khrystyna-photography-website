@@ -143,7 +143,7 @@
     var statusClass = !l.status ? 'new' : l.status === 'Booked' ? 'booked' : CLOSED.indexOf(l.status) > -1 ? 'closed' : '';
     var meta = el('div', { class: 'meta' }, [
       el('span', { class: 'cat', text: l.category || 'Other' }),
-      l.origin === 'Thumbtack' ? el('span', { class: 'tt', text: 'Thumbtack' }) : null,
+      l.origin && l.origin !== 'Website' ? el('span', { class: 'tt', text: l.origin }) : null,
       clash ? el('span', { class: 'soon', text: 'Already booked that day: ' + clash }) : null,
       ev ? el('span', { class: ev.soon ? 'soon' : '', text: ev.text }) : null,
       ago !== null ? el('span', { text: ago === 0 ? 'Inquired today' : 'Inquired ' + ago + (ago === 1 ? ' day ago' : ' days ago') }) : null,
@@ -167,7 +167,7 @@
     var facts = el('dl', { class: 'facts' });
     var tt = l.origin === 'Thumbtack';
     [[tt ? 'Thumbtack phone' : 'Phone', l.phone], ['Email', l.email], [tt ? 'Area' : 'Venue', l.venue], ['Guests', l.guest_count], ['Planner', l.planner], [tt ? 'Schedule' : 'Coverage', l.coverage],
-     [tt ? 'Event type' : 'They chose', l.visitor_type], ['Came from', l.source], ['Form on', l.form_page], ['Sent the form', l.submissions > 1 ? l.submissions + ' times' : null],
+     [tt ? 'Event type' : 'They chose', l.visitor_type], ['Came from', l.source], ['Form on', l.form_page], ['Sent the form', l.submissions > 1 ? l.submissions + ' times' : null], ['Instagram', l.handle],
      ['Thumbtack estimate', tt && l.thumbtack_estimate !== null ? money(l.thumbtack_estimate) : null], ['Lead cost', tt && l.lead_cost !== null ? '$' + Number(l.lead_cost).toFixed(2) : null],
      ['Messages', tt && l.messages ? l.messages + ', last from ' + (l.last_message_from === 'Business' ? 'you' : 'the customer') + ' on ' + niceDate(l.last_message_on) : null]].forEach(function (f) {
       if (f[1] === null || f[1] === undefined || f[1] === '') return;
@@ -190,8 +190,12 @@
       var tt = l.origin === 'Thumbtack', row = { status: status.value || null, booked: isBooked, amount: isBooked ? Number(price.value) : 0,
         booked_category: job.value || null, note: note.value.trim() || null, last_contact_at: contact.value || null, updated_at: new Date().toISOString() };
       save.disabled = true; saved.textContent = 'Saving...'; saved.className = 'saved';
-      if (tt) row.negotiation_id = l.negotiation_id; else row.inquiry_id = l.inquiry_id;
-      sb.from(tt ? 'thumbtack_outcomes' : 'lead_outcomes').upsert(row, { onConflict: tt ? 'negotiation_id' : 'inquiry_id' }).then(function (r) {
+      var hand = String(l.lead_key).indexOf('m:') === 0, write;
+      if (hand) write = sb.from('manual_leads').update(row).eq('id', Number(String(l.lead_key).slice(2))).select('id');
+      else { if (tt) row.negotiation_id = l.negotiation_id; else row.inquiry_id = l.inquiry_id;
+        write = sb.from(tt ? 'thumbtack_outcomes' : 'lead_outcomes').upsert(row, { onConflict: tt ? 'negotiation_id' : 'inquiry_id' }); }
+      write.then(function (r) {
+        if (hand && !r.error && !(r.data && r.data.length)) r = { error: true };
         save.disabled = false;
         if (r.error) { saved.textContent = 'Not saved. Try again.'; saved.className = 'saved err'; return; }
         l.status = row.status; l.booked = row.booked; l.amount = row.amount; l.booked_category = row.booked_category; l.outcome_note = row.note; l.last_contact_at = row.last_contact_at;
@@ -208,7 +212,7 @@
       if (!f.test(l)) return false;
       if (cat && (l.category || 'Other') !== cat) return false;
       if (org && l.origin !== org) return false;
-      if (q && [l.name, l.phone, l.email, l.venue, l.outcome_note].join(' ').toLowerCase().indexOf(q) === -1) return false;
+      if (q && [l.name, l.phone, l.email, l.venue, l.handle, l.outcome_note].join(' ').toLowerCase().indexOf(q) === -1) return false;
       return true;
     });
     var box = $('list'); box.textContent = '';
