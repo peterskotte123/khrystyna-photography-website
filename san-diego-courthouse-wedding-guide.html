@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css?v=6">
   <link rel="stylesheet" href="css/responsive.css?v=6">
+  <link rel="stylesheet" href="css/tools.css?v=1">
 
   <link rel="icon" type="image/png" href="img/horizontal logo.png">
   <style>
@@ -175,6 +176,39 @@
   <section class="section">
     <div class="container">
       <div class="g-wrap">
+        <div class="tool" id="chPlanner">
+          <h2 class="tool-title">Plan your courthouse wedding date</h2>
+          <p class="tool-lede">Pick the day you want to marry. You get the day to book, the county fees, and what to bring.</p>
+          <div class="tool-fields">
+            <div class="tool-field">
+              <label for="cp-date">Ceremony date</label>
+              <input type="date" id="cp-date" name="cp-date">
+            </div>
+            <div class="tool-field">
+              <span class="tool-legend" id="cp-license-l">License</span>
+              <div class="tool-opts" role="radiogroup" aria-labelledby="cp-license-l">
+                <label><input type="radio" name="cp-license" value="public" checked> Public, $129</label>
+                <label><input type="radio" name="cp-license" value="confidential"> Confidential, $144</label>
+              </div>
+            </div>
+            <div class="tool-field" data-witness>
+              <span class="tool-legend" id="cp-witness-l">Witness</span>
+              <div class="tool-opts" role="radiogroup" aria-labelledby="cp-witness-l">
+                <label><input type="radio" name="cp-witness" value="own" checked> We bring one</label>
+                <label><input type="radio" name="cp-witness" value="clerk"> Clerk's witness, $58</label>
+              </div>
+            </div>
+            <div class="tool-field">
+              <span class="tool-legend" id="cp-pay-l">Paying by</span>
+              <div class="tool-opts" role="radiogroup" aria-labelledby="cp-pay-l">
+                <label><input type="radio" name="cp-pay" value="cash" checked> Cash or check</label>
+                <label><input type="radio" name="cp-pay" value="card"> Card, adds $2.50</label>
+              </div>
+            </div>
+          </div>
+          <div class="tool-out" aria-live="polite"></div>
+        </div>
+
         <p class="g-meta">Updated October 16, 2026. Fees and rules below come from the <a href="https://www.sdarcc.gov/content/arcc/home/divisions/recorder-clerk/marriage-license-civil-ceremony.html" target="_blank" rel="noopener">San Diego County Clerk's marriage page</a> and change from time to time, so confirm them when you book. Written by <a href="about.html">Khrystyna Skotte</a>, a San Diego photographer who covers courthouse ceremonies downtown and at the branch offices.</p>
 
         <div class="g-quick">
@@ -552,5 +586,6 @@
   </footer>
 
   <script src="js/main.js?v=16"></script>
+  <script src="js/tools.js?v=1"></script>
 </body>
 </html>

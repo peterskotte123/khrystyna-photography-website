@@ -36,6 +36,7 @@ ACTIVE = {
     "where-to-propose-in-san-diego.html": "proposals",
     "best-places-to-elope-in-san-diego.html": "elopements",
     "san-diego-wedding-photography-cost.html": "pricing",
+    "wedding-day-timeline.html": "weddings",
     "proposals.html": "proposals",
     "maternity.html": "maternity",
     "portfolio.html": "portfolio",
@@ -63,6 +64,7 @@ FORMS = {
     "san-diego-courthouse-wedding-guide.html": ("Courthouse Weddings", "Check Your Date", "Elopement"),
     "san-diego-engagement-photo-locations.html": ("Engagement Sessions", "Let's Plan Your Session", "Engagement Session"),
     "san-diego-wedding-photography-cost.html": ("Weddings", "Check Your Date", "Wedding"),
+    "wedding-day-timeline.html": ("Weddings", "Check Your Date", "Wedding"),
     "where-to-propose-in-san-diego.html": ("Surprise Proposals", "Tell Me About the Plan", "Surprise Proposal"),
 }
 

@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css?v=6">
   <link rel="stylesheet" href="css/responsive.css?v=6">
+  <link rel="stylesheet" href="css/tools.css?v=1">
 
   <link rel="icon" type="image/png" href="img/horizontal logo.png">
   <style>
@@ -356,6 +357,29 @@
         </ul>
 
         <h2>Timing</h2>
+        <div class="tool" id="goldenHour">
+          <h3 class="tool-title">Find golden hour for your spot and date</h3>
+          <p class="tool-lede">Pick a spot and a date to see sunset, when golden hour begins, and when we would start.</p>
+          <div class="tool-fields">
+            <div class="tool-field">
+              <label for="gh-spot">Spot</label>
+              <select id="gh-spot" name="gh-spot"></select>
+            </div>
+            <div class="tool-field">
+              <label for="gh-date">Date</label>
+              <input type="date" id="gh-date" name="gh-date">
+            </div>
+            <div class="tool-field">
+              <span class="tool-legend" id="gh-hours-l">Coverage</span>
+              <div class="tool-opts" role="radiogroup" aria-labelledby="gh-hours-l">
+                <label><input type="radio" name="gh-hours" value="1"> 1 hour</label>
+                <label><input type="radio" name="gh-hours" value="2" checked> 2 hours</label>
+                <label><input type="radio" name="gh-hours" value="3"> 3 hours</label>
+              </div>
+            </div>
+          </div>
+          <div class="tool-out" aria-live="polite"></div>
+        </div>
         <p>For a two-hour session, we start about two hours before sunset: arrive and settle, a short ceremony while the light is still warm, portraits along the cliffs or sand as it drops, and the toast as the sky goes. For a one-hour session, start 75 minutes before sunset. From May into early July the marine layer sits on the coast in the morning and usually burns off by early afternoon; when it stays, it photographs soft and even rather than grey, and Windansea and Balboa Park are the two spots most likely to be clear. In my experience the winter light on the Pacific goes flat after about 3 p.m. and comes back for the last half hour, so a December ceremony starts later relative to sunset than a June one. Low tide opens the ledges and sand at Sunset Cliffs and Torrey Pines, so the tide table sets the start time as much as the sun does. Unsafe weather reschedules at no charge and your retainer moves with the date.</p>
 
         <div class="g-cta">
@@ -536,5 +560,6 @@
   </footer>
 
   <script src="js/main.js?v=16"></script>
+  <script src="js/tools.js?v=1"></script>
 </body>
 </html>

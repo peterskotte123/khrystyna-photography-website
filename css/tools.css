@@ -1,0 +1,53 @@
+/* Free tools: courthouse planner, wedding day timeline, golden hour finder. Loaded only on the pages that carry one. */
+.tool { background: #fff; border: 1px solid #dfe3dc; border-radius: var(--radius-md); padding: var(--space-6); margin: 0 0 var(--space-8); box-shadow: var(--shadow-sm); }
+.tool .tool-title { font-family: var(--font-heading); font-size: var(--text-2xl); margin: 0 0 var(--space-2); color: var(--color-text); line-height: var(--leading-tight); }
+.tool .tool-lede { margin: 0 0 var(--space-5); color: #555; }
+.tool-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: var(--space-4); margin: 0 0 var(--space-4); }
+.tool-field[hidden] { display: none; }
+.tool-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tool-field > label, .tool-field > .tool-legend { font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--color-text); }
+.tool-field input[type="date"], .tool-field input[type="time"], .tool-field input[type="number"], .tool-field select {
+  font: inherit; color: var(--color-text); background: #fff; border: 1px solid #c9cfc3; border-radius: var(--radius-sm);
+  padding: 10px 12px; min-height: 46px; width: 100%; box-sizing: border-box; }
+.tool-field input:focus, .tool-field select:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+.tool .tool-hint { font-size: var(--text-xs); color: var(--color-text-muted); }
+.tool-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.tool-opts label { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #c9cfc3; border-radius: var(--radius-full); padding: 9px 14px; min-height: 44px; box-sizing: border-box; font-size: var(--text-sm); cursor: pointer; background: #fff; color: var(--color-text); }
+.tool-opts input { accent-color: var(--color-accent); margin: 0; }
+.tool-opts label:has(input:checked) { border-color: var(--color-accent); background: var(--color-background-alt); }
+.tool-opts label:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+.tool-out { border-top: 1px solid #dfe3dc; margin-top: var(--space-5); padding-top: var(--space-5); }
+.tool-out:empty { display: none; }
+.tool .tool-out h3 { font-family: var(--font-heading); font-size: var(--text-xl); margin: 0 0 var(--space-3); color: var(--color-text); }
+.tool .tool-out ul { margin: 0 0 var(--space-4); padding-left: 1.3em; list-style: disc; }
+.tool .tool-out li { margin-bottom: var(--space-2); color: #444; line-height: 1.6; }
+.tool .tool-out p { margin: 0 0 var(--space-3); color: #444; }
+.tool-big { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-3); margin: 0 0 var(--space-5); }
+.tool-stat { background: var(--color-background-alt); border-radius: var(--radius-md); padding: var(--space-4); }
+.tool .tool-stat span { display: block; font-size: var(--text-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 4px; }
+.tool .tool-stat strong { display: block; font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: 500; color: var(--color-text); line-height: 1.15; }
+.tool .tool-stat small { display: block; font-size: var(--text-xs); color: #666; margin-top: 4px; }
+.tool .tool-warn { background: #fbf6ea; border: 1px solid #ead9ae; border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin: 0 0 var(--space-4); color: #4a4234; }
+.tool-table { width: 100%; border-collapse: collapse; margin: 0 0 var(--space-4); }
+.tool .tool-table td, .tool .tool-table th { text-align: left; padding: 9px 10px; border-bottom: 1px solid #e6e2dc; vertical-align: top; color: #444; font-size: var(--text-sm); }
+.tool .tool-table th { color: var(--color-text); font-weight: var(--font-semibold); background: var(--color-background-alt); }
+.tool-table td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--color-text); }
+.tool-table tr.off td { color: #8a8a8a; }
+.tool-table tfoot td { font-weight: var(--font-semibold); color: var(--color-text); border-bottom: 0; }
+.tool-cta { background: var(--color-text); border-radius: var(--radius-md); padding: var(--space-5); text-align: center; }
+.tool .tool-cta p { color: rgba(255,255,255,.9); margin: 0 0 var(--space-3); }
+.tool .tool-cta a.btn, .tool .tool-cta a.btn:hover { color: #fff; text-decoration: none; }
+.tool .tool-cta a.sms { color: #fff; text-decoration: underline; display: inline-block; margin-top: var(--space-2); padding: 8px; font-size: var(--text-sm); }
+.tool-adjust { margin: 0 0 var(--space-4); }
+.tool-adjust summary { cursor: pointer; color: var(--color-accent); font-size: var(--text-sm); font-weight: var(--font-semibold); min-height: 44px; display: flex; align-items: center; }
+.tool-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: 0 0 var(--space-5); }
+.tool-link { background: none; border: 0; padding: 8px 0; font: inherit; font-size: var(--text-sm); color: var(--color-accent); text-decoration: underline; cursor: pointer; min-height: 44px; }
+@media (max-width: 520px) {
+  .tool { padding: var(--space-4); }
+  .tool-title { font-size: var(--text-xl); }
+  .tool-table td, .tool-table th { padding: 8px 6px; }
+}
+@media print {
+  .header, .mobile-menu, .mobile-menu-overlay, .footer, .mobile-book-bar, #inquire, .page-header, .tool-fields, .tool-adjust, .tool-actions, .tool-cta, .g-wrap > :not(.tool) { display: none !important; }
+  .tool { border: 0; box-shadow: none; padding: 0; }
+}
