@@ -314,13 +314,14 @@
     };
     const body = new FormData(form);
     body.delete('_honey');
-    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
-    const timer = setTimeout(() => { if (ctrl) ctrl.abort(); go(); }, SEND_WAIT);
+    // keepalive lets the request finish after the visitor has moved on to
+    // the thanks page. Without it a Formspree answer slower than SEND_WAIT
+    // was cancelled and the email never went out (2026-11-18).
+    const timer = setTimeout(go, SEND_WAIT);
     const done = () => { clearTimeout(timer); go(); };
     try {
       fetch(form.action, {
-        method: 'POST', body, headers: { Accept: 'application/json' },
-        signal: ctrl ? ctrl.signal : undefined
+        method: 'POST', body, headers: { Accept: 'application/json' }, keepalive: true
       }).then(done, done);
     } catch (e) { done(); }
   };
