@@ -35,6 +35,7 @@
     <section id="tiles" class="tiles" aria-label="Summary"></section>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="leads" aria-selected="true">Leads</button>
+      <button role="tab" data-tab="upcoming" aria-selected="false">Upcoming shoots</button>
       <button role="tab" data-tab="other" aria-selected="false">Other bookings</button>
       <button role="tab" data-tab="byjob" aria-selected="false">By job type</button>
     </nav>
@@ -50,6 +51,13 @@
       </div>
       <p id="count" class="muted small"></p>
       <div id="list"></div>
+    </section>
+
+    <section id="tab-upcoming" hidden>
+      <p class="muted small">Every booked job with a date from today on, soonest first. A booked lead shows here once its status is Booked. Add anything else by hand.</p>
+      <button id="addUpcoming" class="btn">Add a shoot</button>
+      <p id="upcomingCount" class="muted small"></p>
+      <div id="upcomingList"></div>
     </section>
 
     <section id="tab-other" hidden>
@@ -69,6 +77,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" integrity="sha384-GFr3yTh5lJznCbZfpTtXnwboFsxqtTQoeTZCRHhE0579KrRmlCzen5AA8ohaB5ug" crossorigin="anonymous"></script>
-  <script src="/studio/studio.js?v=6"></script>
+  <script src="/studio/studio.js?v=7"></script>
 </body>
 </html>

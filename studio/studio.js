@@ -94,7 +94,7 @@
     return (booked[d] || []).filter(function (b) { return b.key !== l.lead_key; }).map(function (b) { return b.client; }).join(', ');
   }
 
-  function renderAll() { renderTiles(); renderChips(); renderCategories(); renderList(); renderOther(); renderByJob(); }
+  function renderAll() { renderTiles(); renderChips(); renderCategories(); renderList(); renderUpcoming(); renderOther(); renderByJob(); }
 
   function renderTiles() {
     var L = state.leads, booked = L.filter(function (l) { return l.status === 'Booked'; });
@@ -207,7 +207,7 @@
         save.disabled = false;
         if (r.error) { saved.textContent = 'Not saved. Try again.'; saved.className = 'saved err'; return; }
         l.status = row.status; l.booked = row.booked; l.amount = row.amount; l.booked_category = row.booked_category; l.outcome_note = row.note; l.last_contact_at = row.last_contact_at; l.follow_up_on = row.follow_up_on;
-        renderTiles(); renderChips(); renderList(); renderByJob();
+        renderTiles(); renderChips(); renderList(); renderUpcoming(); renderByJob();
       });
     });
     return el('div', { class: 'body' }, [actions, facts, l.message ? el('p', { class: 'message', text: l.message }) : null,
@@ -254,7 +254,7 @@
         save.disabled = false;
         if (r.error || !r.data || !r.data.length) { saved.textContent = 'Not saved. Try again.'; saved.className = 'saved err'; return; }
         if (o.id) state.other = state.other.map(function (x) { return x.id === o.id ? r.data[0] : x; }); else state.other.unshift(r.data[0]);
-        renderTiles(); renderOther(); renderByJob();
+        renderTiles(); renderUpcoming(); renderOther(); renderByJob();
       });
     });
     return form;
@@ -272,6 +272,47 @@
   }
   $('addOther').addEventListener('click', function () {
     var box = $('otherList'); if (box.firstChild && box.firstChild.dataset && box.firstChild.dataset.fresh) return;
+    var card = el('div', { class: 'card', 'data-fresh': '1' }, [el('div', { class: 'body' }, [otherForm()])]);
+    box.insertBefore(card, box.firstChild); card.querySelector('input').focus();
+  });
+
+  // ---------- upcoming shoots ----------
+  // Every booked job with a date from today on, soonest first: booked leads and the bookings added by hand.
+  function longDate(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); }
+  function shoots() {
+    var rows = [];
+    state.leads.forEach(function (l) { if (l.status === 'Booked') rows.push({ date: isoDate(l.event_date), client: l.name || 'No name', job: l.booked_category || l.category || 'Other',
+      amount: l.amount, place: l.origin === 'Thumbtack' ? null : l.venue, via: l.origin || 'Website', lead: l }); });
+    state.other.forEach(function (o) { rows.push({ date: isoDate(o.event_date), client: o.client, job: o.category || 'Job type not set', amount: o.amount, place: null, via: o.source, other: o }); });
+    return rows;
+  }
+  function shootCard(s, sameDay) {
+    var d = s.date ? daysBetween(today(), s.date) : null;
+    var pill = d === null ? 'No date' : d === 0 ? 'Today' : d === 1 ? 'Tomorrow' : 'In ' + d + ' days';
+    var also = sameDay.filter(function (x) { return x !== s; }).map(function (x) { return x.client; }).join(', ');
+    var card = el('details', { class: 'card' }, [el('summary', {}, [
+      el('div', { class: 'line1' }, [el('span', { class: 'name', text: s.date ? longDate(s.date) : s.client }), el('span', { class: 'status' + (d !== null && d <= 14 ? ' new' : ''), text: pill })]),
+      el('div', { class: 'meta' }, [s.date ? el('span', { class: 'cat', text: s.client }) : null, el('span', { text: s.job }), Number(s.amount) ? el('span', { text: money(s.amount) }) : null,
+        s.place ? el('span', { text: s.place }) : null, s.via ? el('span', { text: s.via }) : null, also ? el('span', { class: 'soon', text: 'Also that day: ' + also }) : null])])]);
+    card.addEventListener('toggle', function () { if (card.open && !card.dataset.built) { card.dataset.built = '1'; card.appendChild(s.lead ? leadBody(s.lead) : el('div', { class: 'body' }, [otherForm(s.other)])); } });
+    return card;
+  }
+  function renderUpcoming() {
+    var all = shoots(), t = today(), byDay = {};
+    var soon = all.filter(function (s) { return s.date && s.date >= t; }).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+    var undated = all.filter(function (s) { return !s.date; });
+    soon.forEach(function (s) { (byDay[s.date] = byDay[s.date] || []).push(s); });
+    var box = $('upcomingList'); box.textContent = '';
+    $('upcomingCount').textContent = soon.length + (soon.length === 1 ? ' upcoming shoot' : ' upcoming shoots');
+    soon.forEach(function (s) { box.appendChild(shootCard(s, byDay[s.date])); });
+    if (!soon.length) box.appendChild(el('p', { class: 'muted', text: 'No booked shoots with a date from today on.' }));
+    if (undated.length) {
+      box.appendChild(el('p', { class: 'muted small', text: 'Booked with no event date yet (' + undated.length + '). Open one to add the date.' }));
+      undated.forEach(function (s) { box.appendChild(shootCard(s, [])); });
+    }
+  }
+  $('addUpcoming').addEventListener('click', function () {
+    var box = $('upcomingList'); if (box.firstChild && box.firstChild.dataset && box.firstChild.dataset.fresh) return;
     var card = el('div', { class: 'card', 'data-fresh': '1' }, [el('div', { class: 'body' }, [otherForm()])]);
     box.insertBefore(card, box.firstChild); card.querySelector('input').focus();
   });
@@ -311,7 +352,7 @@
   Array.prototype.forEach.call(document.querySelectorAll('.tabs button'), function (b) {
     b.addEventListener('click', function () {
       Array.prototype.forEach.call(document.querySelectorAll('.tabs button'), function (x) { x.setAttribute('aria-selected', String(x === b)); });
-      ['leads', 'other', 'byjob'].forEach(function (t) { $('tab-' + t).hidden = t !== b.dataset.tab; });
+      ['leads', 'upcoming', 'other', 'byjob'].forEach(function (t) { $('tab-' + t).hidden = t !== b.dataset.tab; });
     });
   });
 
@@ -328,7 +369,7 @@
   // Skipped while a card is open so nothing she is typing gets replaced.
   function refresh() {
     if (!started || document.visibilityState !== 'visible' || $('app').hidden) return;
-    if (document.querySelector('#list details[open], #otherList details[open], #otherList [data-fresh]')) return;
+    if (document.querySelector('#list details[open], #otherList details[open], #otherList [data-fresh], #upcomingList details[open], #upcomingList [data-fresh]')) return;
     load();
   }
   document.addEventListener('visibilitychange', refresh);
