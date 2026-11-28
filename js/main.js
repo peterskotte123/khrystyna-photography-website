@@ -354,6 +354,8 @@
       const guests = $('inq-guests');
       if (guests) {
         wrap(guests).style.display = isProposal ? 'none' : '';
+        // A hidden field that fails min="1" blocks submit with no visible message.
+        guests.disabled = isProposal;
         const gLabel = document.querySelector('label[for="inq-guests"]');
         if (gLabel) gLabel.textContent = type === 'Elopement' ? 'How many guests, if any?' : 'Estimated Guest Count';
         guests.placeholder = type === 'Elopement' ? 'e.g. just us, or 8' : 'e.g. 80 (skip for proposals and sessions)';
